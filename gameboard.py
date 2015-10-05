@@ -41,7 +41,7 @@ class Gameboard:
             raise TypeError("square variable must be from Coordinate enum")
         # Horizontal lines all have the same number (x-value)
         x, y = self._indexOf(square)
-        return set(self.rows[x])
+        return self.rows[x]
 
     def columnForSquare(self, square):
         """Returns a set representing the vertical line where the square given belongs.
@@ -49,7 +49,7 @@ class Gameboard:
         Args:
             square (Coordinate): the square in the column to find
         Returns:
-            set: elements are Coordinate elements in the column, including 'square'
+            list: elements are Coordinate elements in the column, including 'square'
         Raises:
             TypeError: if square is not of type Coordinate
         """
@@ -57,9 +57,9 @@ class Gameboard:
             raise TypeError("square variable must be from Coordinate enum")
         # Vertical lines all have the same letter (y-value)
         x, y = self._indexOf(square)
-        column = set()
+        column = []
         for row in self.rows:
-            column.add(row[y])
+            column.append(row[y])
         return column
 
     def rowAndColumnForSquare(self, square):
@@ -76,7 +76,9 @@ class Gameboard:
             raise TypeError("square variable must be from Coordinate enum")
         row = self.rowForSquare(square)
         col = self.columnForSquare(square)
-        return row | col
+        row.extend(col)
+        return list(set(row)) 
+        # ^ turn into set because 'square' is in both lists and a duplicate element after extend()
 
     def diagonalsForSquare(self, square):
         """Returns a set representing both diagonals where the square given belongs.
@@ -84,7 +86,7 @@ class Gameboard:
         Args:
             square (Coordinate): the square in the diagonals to find
         Returns:
-            set: elements are Coordinate elements in the diagonals, including 'square'
+            list: elements are Coordinate elements in the diagonals, including 'square'
         Raises:
             TypeError: if square is not of type Coordinate
         """
@@ -94,7 +96,7 @@ class Gameboard:
         MIN_INDEX = 0
         
         x, y = self._indexOf(square)
-        diagonals = set([square])
+        diagonals = [square]
 
         # 4 directions: 
         #   top-right:  x decreases, y increases
@@ -102,25 +104,25 @@ class Gameboard:
         while rowIndex > MIN_INDEX and colIndex < MAX_INDEX:
             rowIndex -= 1
             colIndex += 1
-            diagonals.add(self.rows[rowIndex][colIndex])
+            diagonals.append(self.rows[rowIndex][colIndex])
         #   btm-right:  x increases, y increases
         rowIndex, colIndex = x, y
         while rowIndex < MAX_INDEX and colIndex < MAX_INDEX:
             rowIndex += 1
             colIndex += 1
-            diagonals.add(self.rows[rowIndex][colIndex])
+            diagonals.append(self.rows[rowIndex][colIndex])
         #   btm-left:   x increases, y decreases
         rowIndex, colIndex = x, y
         while rowIndex < MAX_INDEX and colIndex > MIN_INDEX:
             rowIndex += 1
             colIndex -= 1
-            diagonals.add(self.rows[rowIndex][colIndex])
+            diagonals.append(self.rows[rowIndex][colIndex])
         #   top-right:  x decreases, y decreases
         rowIndex, colIndex = x, y
         while rowIndex > MIN_INDEX and colIndex > MIN_INDEX:
             rowIndex -= 1
             colIndex -= 1
-            diagonals.add(self.rows[rowIndex][colIndex])
+            diagonals.append(self.rows[rowIndex][colIndex])
         return diagonals
 
     def _indexOf(self, square):

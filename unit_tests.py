@@ -6,7 +6,7 @@ class TestSquares(unittest.TestCase):
     
     pass
 
-class Testboard(unittest.TestCase):
+class TestBoard(unittest.TestCase):
 
     def setUp(self):
         self.board = Gameboard()
@@ -37,42 +37,46 @@ class Testboard(unittest.TestCase):
         index = self.board._indexOf(Coordinate.a5)
         self.assertEqual(index,(3,0))
 
+    def test_index_of_coordinate_center(self):
+        index = self.board._indexOf(Coordinate.d3)
+        self.assertEqual(index,(5,3))
+
     def test_row_for_square_raises_TypeError(self):
         self.assertRaises(TypeError,self.board.rowForSquare,"bleh")
 
     def test_row_for_square(self):
         boardAnswer = self.board.rowForSquare(Coordinate.d5)
-        correctAnswer = {Coordinate.a5,
+        correctAnswer = [Coordinate.a5,
                         Coordinate.b5,
                         Coordinate.c5,
                         Coordinate.d5,
                         Coordinate.e5,
                         Coordinate.f5,
                         Coordinate.g5,
-                        Coordinate.h5}
-        self.assertEqual(boardAnswer,correctAnswer)
+                        Coordinate.h5]
+        self.assertEqual(sorted(boardAnswer),sorted(correctAnswer))
 
     def test_column_for_square_raises_TypeError(self):
         self.assertRaises(TypeError,self.board.columnForSquare,"bleh")
 
     def test_column_for_square(self):
         boardAnswer = self.board.columnForSquare(Coordinate.a1)
-        correctAnswer = {Coordinate.a1,
+        correctAnswer = [Coordinate.a1,
                         Coordinate.a2,
                         Coordinate.a3,
                         Coordinate.a4,
                         Coordinate.a5,
                         Coordinate.a6,
                         Coordinate.a7,
-                        Coordinate.a8}
-        self.assertEqual(boardAnswer,correctAnswer)
+                        Coordinate.a8]
+        self.assertEqual(sorted(boardAnswer),sorted(correctAnswer))
 
     def test_row_and_column_for_square_raises_TypeError(self):
         self.assertRaises(TypeError,self.board.columnForSquare,"bleh")
 
     def test_row_and_column_for_square(self):
         boardAnswer = self.board.rowAndColumnForSquare(Coordinate.b4)
-        correctAnswer = {Coordinate.b1,
+        correctAnswer = [Coordinate.b1,
                         Coordinate.b2,
                         Coordinate.b3,
                         Coordinate.b4,
@@ -86,15 +90,15 @@ class Testboard(unittest.TestCase):
                         Coordinate.e4,
                         Coordinate.f4,
                         Coordinate.g4,
-                        Coordinate.h4}
-        self.assertEqual(boardAnswer,correctAnswer)
+                        Coordinate.h4]
+        self.assertEqual(sorted(boardAnswer),sorted(correctAnswer))
 
     def test_diagonals_for_square_raises_TypeError(self):
         self.assertRaises(TypeError,self.board.columnForSquare,"bleh")
 
     def test_diagonals_for_square(self):
         boardAnswer = self.board.diagonalsForSquare(Coordinate.d4)
-        correctAnswer = {Coordinate.a1,
+        correctAnswer = [Coordinate.a1,
                         Coordinate.b2,
                         Coordinate.c3,
                         Coordinate.d4,
@@ -107,8 +111,8 @@ class Testboard(unittest.TestCase):
                         Coordinate.c5,
                         Coordinate.e3,
                         Coordinate.f2,
-                        Coordinate.g1}
-        self.assertEqual(boardAnswer,correctAnswer)
+                        Coordinate.g1]
+        self.assertEqual(sorted(boardAnswer),sorted(correctAnswer))
 
 if __name__ == '__main__':
     unittest.main()
