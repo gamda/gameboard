@@ -68,54 +68,39 @@ class Gameboard:
         bl = None
         left = None
         tl = None
-        try:
-            newCoord = square + number
-            if (newCoord // letter) == (square // letter):
-                top = Coordinate(newCoord)
-            else:
-                pass # adding a square puts us in the next letter column
-        except ValueError:
-            pass # index is out of bounds, so neighbor stays None
-        try:
-            newCoord = square + letter + number
-            if (newCoord // letter) == (square // letter + 1):
-                tr  = Coordinate(newCoord)
-        except ValueError:
-            pass
-        try:
-            right  = Coordinate(square + letter)
-        except ValueError:
-            pass
-        try:
-            newCoord = square + letter - number
-            if (newCoord // letter) == (square // letter + 1):
-                br  = Coordinate(newCoord)
-            else:
-                pass # We are in the same column
-        except ValueError:
-            pass
-        try:
-            newCoord = square - number
-            if (newCoord // letter) == (square // letter):
-                btm  = Coordinate(newCoord)
-        except ValueError:
-            pass
-        try:
-            newCoord = square - letter - number
-            if (newCoord // letter) == (square // letter - 1):
-                bl  = Coordinate(newCoord)
-        except ValueError:
-            pass
-        try:
-            left  = Coordinate(square - letter)
-        except ValueError:
-            pass
-        try:
-            newCoord = square - letter + number
-            if (newCoord // letter) == (square // letter - 1):
-                tl  = Coordinate(newCoord)
-        except ValueError:
-            pass
+
+        newCoord = square + number
+        if (newCoord // letter) == (square // letter):
+            top = Coordinate(newCoord)
+
+        newCoord = square + letter + number
+        if (newCoord // letter) == (square // letter + 1) and newCoord < 64:
+            tr  = Coordinate(newCoord)
+
+        newCoord = square + letter
+        if (newCoord // letter) == (square // letter + 1) and newCoord < 64:
+            right  = Coordinate(newCoord)
+
+        newCoord = square + letter - number
+        if (newCoord // letter) == (square // letter + 1) and newCoord < 64:
+            br  = Coordinate(newCoord)
+
+        newCoord = square - number
+        if (newCoord // letter) == (square // letter):
+            btm  = Coordinate(newCoord)
+
+        newCoord = square - letter - number
+        if (newCoord // letter) == (square // letter - 1) and newCoord >= 0:
+            bl  = Coordinate(newCoord)
+
+        newCoord = square - letter
+        if (newCoord // letter) == (square // letter - 1) and newCoord >= 0:
+            left  = Coordinate(newCoord)
+
+        newCoord = square - letter + number
+        if (newCoord // letter) == (square // letter - 1) and newCoord >= 0:
+            tl  = Coordinate(newCoord)
+
         neighbors = {Direction.top: top,
                     Direction.topRight: tr,
                     Direction.right: right,
