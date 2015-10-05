@@ -23,17 +23,116 @@ class Gameboard:
             [Coordinate.a1, Coordinate.b1, Coordinate.c1, Coordinate.d1, Coordinate.e1, Coordinate.f1, Coordinate.g1, Coordinate.h1]]
     
     def __init__(self):
-        self.squares = {}
+        self._squares = {}
         for k in Coordinate:
-            self.squares[k] = Square()
+            self._squares[k] = None
+
+    def _indexOf(self, square):
+        """Returns a tuple with the index of given square in self.rows
+
+        Args:
+            square (Coordinate): the square to find index for
+        Returns:
+            tuple: it has the form (x,y). The square can be found by accessing
+            self.rows[x][y]
+        Raises:
+            TypeError: if square is not of type Coordinate
+
+        """
+        if not isinstance(square, Coordinate):
+            raise TypeError("square variable must be from Coordinate enum")
+        for i in range(len(self.rows)):
+            if square in self.rows[i]:
+                return (i,self.rows[i].index(square))
+
+    def neighbors(self, square):
+        """Returns a dictionary dict[Direction]=Coordinate.
+
+        Args:
+            square (Coordinate): the square to get neighbors from
+        Returns:
+            dict: keys are Direction values; values are Coordinate elements 
+            of the corresponding neighbor, None if neighbor doesn't exist
+        Raises:
+            TypeError: if square is not of type Coordinate
+        """
+        if not isinstance(square, Coordinate):
+            raise TypeError("square variable must be from Coordinate enum")
+        number = 1
+        letter = 8
+        top = None
+        tr = None
+        right = None
+        br = None
+        btm = None
+        bl = None
+        left = None
+        tl = None
+        try:
+            newCoord = square + number
+            if (newCoord // letter) == (square // letter):
+                top = Coordinate(newCoord)
+            else:
+                pass # adding a square puts us in the next letter column
+        except ValueError:
+            pass # index is out of bounds, so neighbor stays None
+        try:
+            newCoord = square + letter + number
+            if (newCoord // letter) == (square // letter + 1):
+                tr  = Coordinate(newCoord)
+        except ValueError:
+            pass
+        try:
+            right  = Coordinate(square + letter)
+        except ValueError:
+            pass
+        try:
+            newCoord = square + letter - number
+            if (newCoord // letter) == (square // letter + 1):
+                br  = Coordinate(newCoord)
+            else:
+                pass # We are in the same column
+        except ValueError:
+            pass
+        try:
+            newCoord = square - number
+            if (newCoord // letter) == (square // letter):
+                btm  = Coordinate(newCoord)
+        except ValueError:
+            pass
+        try:
+            newCoord = square - letter - number
+            if (newCoord // letter) == (square // letter - 1):
+                bl  = Coordinate(newCoord)
+        except ValueError:
+            pass
+        try:
+            left  = Coordinate(square - letter)
+        except ValueError:
+            pass
+        try:
+            newCoord = square - letter + number
+            if (newCoord // letter) == (square // letter - 1):
+                tl  = Coordinate(newCoord)
+        except ValueError:
+            pass
+        neighbors = {Direction.top: top,
+                    Direction.topRight: tr,
+                    Direction.right: right,
+                    Direction.btmRight: br,
+                    Direction.btm: btm,
+                    Direction.btmLeft: bl,
+                    Direction.left: left,
+                    Direction.topLeft: tl}
+        return neighbors
 
     def rowForSquare(self, square):
-        """Returns a set representing the horizontal line where the square given belongs.
+        """Returns a list representing the horizontal line where the square given belongs.
 
         Args:
             square (Coordinate): the square in the row to find
         Returns:
-            set: elements are Coordinate elements in the row, including 'square'
+            list: elements are Coordinate elements in the row, including 'square'
         Raises:
             TypeError: if square is not of type Coordinate
         """
@@ -44,7 +143,7 @@ class Gameboard:
         return self.rows[x]
 
     def columnForSquare(self, square):
-        """Returns a set representing the vertical line where the square given belongs.
+        """Returns a list representing the vertical line where the square given belongs.
 
         Args:
             square (Coordinate): the square in the column to find
@@ -63,12 +162,12 @@ class Gameboard:
         return column
 
     def rowAndColumnForSquare(self, square):
-        """Returns a set representing the horizontal and vertical lines where the square given belongs.
+        """Returns a list representing the horizontal and vertical lines where the square given belongs.
 
         Args:
             square (Coordinate): the square in the row to find
         Returns:
-            set: elements are Coordinate elements in the row and column, including 'square'
+            list: elements are Coordinate elements in the row and column, including 'square'
         Raises:
             TypeError: if square is not of type Coordinate
         """
@@ -81,7 +180,7 @@ class Gameboard:
         # ^ turn into set because 'square' is in both lists and a duplicate element after extend()
 
     def diagonalsForSquare(self, square):
-        """Returns a set representing both diagonals where the square given belongs.
+        """Returns a list representing both diagonals where the square given belongs.
 
         Args:
             square (Coordinate): the square in the diagonals to find
@@ -125,20 +224,81 @@ class Gameboard:
             diagonals.append(self.rows[rowIndex][colIndex])
         return diagonals
 
-    def _indexOf(self, square):
-        """Returns a tuple with the index of given square in self.rows
+    def setContent(self, square, content):
+        """No return value, updates the chosen square with the given content.
 
         Args:
-            square (Coordinate): the square to find index for
-        Returns:
-            tuple: it has the form (x,y). The square can be found by accessing
-            self.rows[x][y]
+            square (Coordinate): the square to update
+            content: the content to store inside the square
         Raises:
             TypeError: if square is not of type Coordinate
 
         """
         if not isinstance(square, Coordinate):
             raise TypeError("square variable must be from Coordinate enum")
-        for i in range(len(self.rows)):
-            if square in self.rows[i]:
-                return (i,self.rows[i].index(square))
+        self._squares[square] = content
+
+    def getContent(self, square):
+        """Returns the content of the square (can be None).
+
+        Args:
+            square (Coordinate): the square to check content from
+        Returns:
+            content: the content previously stored in the square by user
+        Raises:
+            TypeError: if square is not of type Coordinate
+
+        """
+        if not isinstance(square, Coordinate):
+            raise TypeError("square variable must be from Coordinate enum")
+        return self._squares[square]
+
+    def isEmpty(self, square):
+        """Returns a boolean indicating whether the square at the given Coordinate is empty.
+
+        Args:
+            square (Coordinate): the square to check
+        Returns:
+            boolean: true if square is empty
+        Raises:
+            TypeError: if square is not of type Coordinate
+
+        """
+        if not isinstance(square, Coordinate):
+            raise TypeError("square variable must be from Coordinate enum")
+        return (self._squares[square] == None)
+
+    def clearSquare(self, square):
+        """No return value. Sets the content of given square to None
+
+        Args:
+            square (Coordinate): the square to clear
+        Raises:
+            TypeError: if square is not of type Coordinate
+
+        """
+        if not isinstance(square, Coordinate):
+            raise TypeError("square variable must be from Coordinate enum")
+        self._squares[square] = None
+
+    def clearBoard(self):
+        """No return value. Sets the content of all squares to None
+
+        """
+        for s in Coordinate:
+            self.clearSquare(s)
+
+    def move(self, origin, destination):
+        """No return value. Moves the content from origin to destination
+
+        Args:
+            origin (Coordinate): the square to move from
+            destination (Coordinate): the square to move to
+        Raises:
+            TypeError: if square is not of type Coordinate
+
+        """
+        if (not isinstance(origin, Coordinate)) or (not isinstance(destination, Coordinate)):
+            raise TypeError("origin and destination must be from Coordinate enum")
+        self._squares[destination] = self._squares[origin]
+        self._squares[origin] = None
