@@ -1,19 +1,23 @@
 import unittest
 from gameboard import Gameboard
+from gameboard import Coordinates
 
 # Jason downloaded this gameboard package to create a game of
 #   checkers.
 class TestCheckers(unittest.TestCase):
 
     def setUp(self): 
-        board = Gameboard()
+        pass
 
     def tearDown(self):
         pass
     
     # First, he starts assigning chips as content for certain squares
     def test_content_is_saved_to_square(self):
-        pass
+        board = Gameboard()
+        content = "whiteChip"
+        board.squares[Coordinates.A1].content = content
+        assertEqual(board.squares[Coordinates.a1].content,content)
 
 # Then, he test moving pieces around
 
