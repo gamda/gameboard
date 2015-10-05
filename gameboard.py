@@ -26,15 +26,30 @@ class Gameboard:
         self.squares = {}
         for k in Coordinate:
             self.squares[k] = Square()
-        self.graph = self._populateGraph()
 
-    def columnForSquare(self, square):
-        """Returns  a list representing the vertical line that corresponds to the square given.
+    def rowForSquare(self, square):
+        """Returns a set representing the horizontal line where the square given belongs.
 
         Args:
             square (Coordinate): the square in the column to find
         Returns:
-            list: elements are Coordinate elements in the column, including 'square'
+            set: elements are Coordinate elements in the column, including 'square'
+        Raises:
+            TypeError: if square is not of type Coordinate
+        """
+        if not isinstance(square, Coordinate):
+            raise TypeError("square variable must be from Coordinate enum")
+        # Horizontal lines all have the same number (x-value)
+        x, y = self._indexOf(square)
+        return set(self.rows[x])
+
+    def columnForSquare(self, square):
+        """Returns a set representing the vertical line where the square given belongs.
+
+        Args:
+            square (Coordinate): the square in the column to find
+        Returns:
+            set: elements are Coordinate elements in the column, including 'square'
         Raises:
             TypeError: if square is not of type Coordinate
         """
@@ -45,7 +60,6 @@ class Gameboard:
         column = set()
         for row in self.rows:
             column.add(row[y])
-        print(column)
         return column
 
     def _indexOf(self, square):
@@ -65,26 +79,3 @@ class Gameboard:
         for i in range(len(self.rows)):
             if square in self.rows[i]:
                 return (i,self.rows[i].index(square))
-
-    def _populateGraph(self):
-        """Creates a dictionary where each key represents a square
-        and the value is a list of the squares it is connected to."""
-        # graph = {}
-        # letter = 8
-        # number = 1
-        # for k in self.squares.keys():
-        #     edges = []
-        #     # There's 8 directions, going TRouBLe order
-        #     edges.append(k + number)            # top
-        #     edges.append(k + number + letter)   # top right
-        #     edges.append(k + letter)            # right
-        #     edges.append(k + letter - number)   # btm right
-        #     edges.append(k - number)            # btm
-        #     edges.append(k - letter - number)   # btm left
-        #     edges.append(k - letter)            # left
-        #     edges.append(k - letter + number)   # top left
-        #     # remove out of bounds
-        #     edges = [e for e in edges if e > 0 and e <= 64]
-        #     graph[k] = edges
-        # print(graph)
-        # return graph

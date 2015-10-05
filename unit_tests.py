@@ -37,10 +37,25 @@ class Testboard(unittest.TestCase):
         index = self.board._indexOf(Coordinate.a5)
         self.assertEqual(index,(3,0))
 
-    def test_column_raises_TypeError(self):
+    def test_row_for_square_raises_TypeError(self):
+        self.assertRaises(TypeError,self.board.rowForSquare,"bleh")
+
+    def test_row_for_square(self):
+        boardAnswer = self.board.rowForSquare(Coordinate.d5)
+        correctAnswer = {Coordinate.a5,
+                        Coordinate.b5,
+                        Coordinate.c5,
+                        Coordinate.d5,
+                        Coordinate.e5,
+                        Coordinate.f5,
+                        Coordinate.g5,
+                        Coordinate.h5}
+        self.assertEqual(boardAnswer,correctAnswer)
+
+    def test_column_for_square_raises_TypeError(self):
         self.assertRaises(TypeError,self.board.columnForSquare,"bleh")
 
-    def test_column_given_square(self):
+    def test_column_for_square(self):
         boardAnswer = self.board.columnForSquare(Coordinate.a1)
         correctAnswer = {Coordinate.a1,
                         Coordinate.a2,
