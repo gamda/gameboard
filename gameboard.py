@@ -31,9 +31,9 @@ class Gameboard:
         """Returns a set representing the horizontal line where the square given belongs.
 
         Args:
-            square (Coordinate): the square in the column to find
+            square (Coordinate): the square in the row to find
         Returns:
-            set: elements are Coordinate elements in the column, including 'square'
+            set: elements are Coordinate elements in the row, including 'square'
         Raises:
             TypeError: if square is not of type Coordinate
         """
@@ -61,6 +61,67 @@ class Gameboard:
         for row in self.rows:
             column.add(row[y])
         return column
+
+    def rowAndColumnForSquare(self, square):
+        """Returns a set representing the horizontal and vertical lines where the square given belongs.
+
+        Args:
+            square (Coordinate): the square in the row to find
+        Returns:
+            set: elements are Coordinate elements in the row and column, including 'square'
+        Raises:
+            TypeError: if square is not of type Coordinate
+        """
+        if not isinstance(square, Coordinate):
+            raise TypeError("square variable must be from Coordinate enum")
+        row = self.rowForSquare(square)
+        col = self.columnForSquare(square)
+        return row | col
+
+    def diagonalsForSquare(self, square):
+        """Returns a set representing both diagonals where the square given belongs.
+
+        Args:
+            square (Coordinate): the square in the diagonals to find
+        Returns:
+            set: elements are Coordinate elements in the diagonals, including 'square'
+        Raises:
+            TypeError: if square is not of type Coordinate
+        """
+        if not isinstance(square, Coordinate):
+            raise TypeError("square variable must be from Coordinate enum")
+        MAX_INDEX = len(self.rows) - 1
+        MIN_INDEX = 0
+        
+        x, y = self._indexOf(square)
+        diagonals = set([square])
+
+        # 4 directions: 
+        #   top-right:  x decreases, y increases
+        rowIndex, colIndex = x, y
+        while rowIndex > MIN_INDEX and colIndex < MAX_INDEX:
+            rowIndex -= 1
+            colIndex += 1
+            diagonals.add(self.rows[rowIndex][colIndex])
+        #   btm-right:  x increases, y increases
+        rowIndex, colIndex = x, y
+        while rowIndex < MAX_INDEX and colIndex < MAX_INDEX:
+            rowIndex += 1
+            colIndex += 1
+            diagonals.add(self.rows[rowIndex][colIndex])
+        #   btm-left:   x increases, y decreases
+        rowIndex, colIndex = x, y
+        while rowIndex < MAX_INDEX and colIndex > MIN_INDEX:
+            rowIndex += 1
+            colIndex -= 1
+            diagonals.add(self.rows[rowIndex][colIndex])
+        #   top-right:  x decreases, y decreases
+        rowIndex, colIndex = x, y
+        while rowIndex > MIN_INDEX and colIndex > MIN_INDEX:
+            rowIndex -= 1
+            colIndex -= 1
+            diagonals.add(self.rows[rowIndex][colIndex])
+        return diagonals
 
     def _indexOf(self, square):
         """Returns a tuple with the index of given square in self.rows

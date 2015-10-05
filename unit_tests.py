@@ -67,5 +67,48 @@ class Testboard(unittest.TestCase):
                         Coordinate.a8}
         self.assertEqual(boardAnswer,correctAnswer)
 
+    def test_row_and_column_for_square_raises_TypeError(self):
+        self.assertRaises(TypeError,self.board.columnForSquare,"bleh")
+
+    def test_row_and_column_for_square(self):
+        boardAnswer = self.board.rowAndColumnForSquare(Coordinate.b4)
+        correctAnswer = {Coordinate.b1,
+                        Coordinate.b2,
+                        Coordinate.b3,
+                        Coordinate.b4,
+                        Coordinate.b5,
+                        Coordinate.b6,
+                        Coordinate.b7,
+                        Coordinate.b8,
+                        Coordinate.a4,
+                        Coordinate.c4,
+                        Coordinate.d4,
+                        Coordinate.e4,
+                        Coordinate.f4,
+                        Coordinate.g4,
+                        Coordinate.h4}
+        self.assertEqual(boardAnswer,correctAnswer)
+
+    def test_diagonals_for_square_raises_TypeError(self):
+        self.assertRaises(TypeError,self.board.columnForSquare,"bleh")
+
+    def test_diagonals_for_square(self):
+        boardAnswer = self.board.diagonalsForSquare(Coordinate.d4)
+        correctAnswer = {Coordinate.a1,
+                        Coordinate.b2,
+                        Coordinate.c3,
+                        Coordinate.d4,
+                        Coordinate.e5,
+                        Coordinate.f6,
+                        Coordinate.g7,
+                        Coordinate.h8,
+                        Coordinate.a7,
+                        Coordinate.b6,
+                        Coordinate.c5,
+                        Coordinate.e3,
+                        Coordinate.f2,
+                        Coordinate.g1}
+        self.assertEqual(boardAnswer,correctAnswer)
+
 if __name__ == '__main__':
     unittest.main()
