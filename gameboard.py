@@ -59,56 +59,49 @@ class Gameboard:
         if not isinstance(square, Coordinate):
             raise TypeError("square variable must be from Coordinate enum")
         number = 1
-        letter = 8
-        top = None
-        tr = None
-        right = None
-        br = None
-        btm = None
-        bl = None
-        left = None
-        tl = None
+        letter = 8 # because adding and substracting 8 will shift a column
+        neighbors = {Direction.top: None,
+                    Direction.topRight: None,
+                    Direction.right: None,
+                    Direction.btmRight: None,
+                    Direction.btm: None,
+                    Direction.btmLeft: None,
+                    Direction.left: None,
+                    Direction.topLeft: None}
 
-        newCoord = square + number
-        if (newCoord // letter) == (square // letter):
-            top = Coordinate(newCoord)
+        top     = square + number
+        tr      = square + letter + number
+        right   = square + letter
+        br      = square + letter - number
+        btm     = square - number
+        bl      = square - letter - number
+        left    = square - letter
+        tl      = square - letter + number
 
-        newCoord = square + letter + number
-        if (newCoord // letter) == (square // letter + 1) and newCoord < 64:
-            tr  = Coordinate(newCoord)
+        if (top // letter) == (square // letter):
+            neighbors[Direction.top] = Coordinate(top)
 
-        newCoord = square + letter
-        if (newCoord // letter) == (square // letter + 1) and newCoord < 64:
-            right  = Coordinate(newCoord)
+        if (tr // letter) == (square // letter + 1) and tr < 64:
+            neighbors[Direction.topRight]  = Coordinate(tr)
 
-        newCoord = square + letter - number
-        if (newCoord // letter) == (square // letter + 1) and newCoord < 64:
-            br  = Coordinate(newCoord)
+        if (right // letter) == (square // letter + 1) and right < 64:
+            neighbors[Direction.right]  = Coordinate(right)
 
-        newCoord = square - number
-        if (newCoord // letter) == (square // letter):
-            btm  = Coordinate(newCoord)
+        if (br // letter) == (square // letter + 1) and br < 64:
+            neighbors[Direction.btmRight]  = Coordinate(br)
 
-        newCoord = square - letter - number
-        if (newCoord // letter) == (square // letter - 1) and newCoord >= 0:
-            bl  = Coordinate(newCoord)
+        if (btm // letter) == (square // letter):
+            neighbors[Direction.btm]  = Coordinate(btm)
 
-        newCoord = square - letter
-        if (newCoord // letter) == (square // letter - 1) and newCoord >= 0:
-            left  = Coordinate(newCoord)
+        if (bl // letter) == (square // letter - 1) and bl >= 0:
+            neighbors[Direction.btmLeft]  = Coordinate(bl)
 
-        newCoord = square - letter + number
-        if (newCoord // letter) == (square // letter - 1) and newCoord >= 0:
-            tl  = Coordinate(newCoord)
+        if (left // letter) == (square // letter - 1) and left >= 0:
+            neighbors[Direction.left]  = Coordinate(left)
 
-        neighbors = {Direction.top: top,
-                    Direction.topRight: tr,
-                    Direction.right: right,
-                    Direction.btmRight: br,
-                    Direction.btm: btm,
-                    Direction.btmLeft: bl,
-                    Direction.left: left,
-                    Direction.topLeft: tl}
+        if (tl // letter) == (square // letter - 1) and tl >= 0:
+            neighbors[Direction.topLeft]  = Coordinate(tl)
+
         return neighbors
 
     def rowForSquare(self, square):
