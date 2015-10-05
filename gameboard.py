@@ -60,7 +60,7 @@ class Gameboard:
             raise TypeError("square variable must be from Coordinate enum")
         number = 1
         letter = 8
-        top = None
+        top = square + number
         tr = None
         right = None
         br = None
@@ -70,7 +70,7 @@ class Gameboard:
         tl = None
 
         newCoord = square + number
-        if (newCoord // letter) == (square // letter):
+        if (top // letter) == (square // letter):
             top = Coordinate(newCoord)
 
         newCoord = square + letter + number
