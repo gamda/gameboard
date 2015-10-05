@@ -1,7 +1,12 @@
 from enum import Enum
+from square import Square
 
 class Gameboard:
-    squares = {}
+    
+    def __init__(self):
+        self.squares = {}
+        for k in Coordinates:
+            self.squares[k] = Square()
 
 class Coordinates(Enum):
     A1 = 1
