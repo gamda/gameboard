@@ -1,75 +1,52 @@
-from enum import Enum
 from square import Square
+from coordinates import Coordinates
 
 class Gameboard:
+    rows = [[Coordinates.a8, Coordinates.b8, Coordinates.c8, Coordinates.d8, Coordinates.e8, Coordinates.f8, Coordinates.g8, Coordinates.h8],
+            [Coordinates.a7, Coordinates.b7, Coordinates.c7, Coordinates.d7, Coordinates.e7, Coordinates.f7, Coordinates.g7, Coordinates.h7],
+            [Coordinates.a6, Coordinates.b6, Coordinates.c6, Coordinates.d6, Coordinates.e6, Coordinates.f6, Coordinates.g6, Coordinates.h6],
+            [Coordinates.a5, Coordinates.b5, Coordinates.c5, Coordinates.d5, Coordinates.e5, Coordinates.f5, Coordinates.g5, Coordinates.h5],
+            [Coordinates.a4, Coordinates.b4, Coordinates.c4, Coordinates.d4, Coordinates.e4, Coordinates.f4, Coordinates.g4, Coordinates.h4],
+            [Coordinates.a3, Coordinates.b3, Coordinates.c3, Coordinates.d3, Coordinates.e3, Coordinates.f3, Coordinates.g3, Coordinates.h3],
+            [Coordinates.a2, Coordinates.b2, Coordinates.c2, Coordinates.d2, Coordinates.e2, Coordinates.f2, Coordinates.g2, Coordinates.h2],
+            [Coordinates.a1, Coordinates.b1, Coordinates.c1, Coordinates.d1, Coordinates.e1, Coordinates.f1, Coordinates.g1, Coordinates.h1]]
     
     def __init__(self):
         self.squares = {}
         for k in Coordinates:
             self.squares[k] = Square()
+        self.graph = self._populateGraph()
 
-class Coordinates(Enum):
-    A1 = 1
-    A2 = 2
-    A3 = 3
-    A4 = 4
-    A5 = 5
-    A6 = 6
-    A7 = 7
-    A8 = 8
-    B1 = 9
-    B2 = 10
-    B3 = 11
-    B4 = 12
-    B5 = 13
-    B6 = 14
-    B7 = 15
-    B8 = 16
-    C1 = 17
-    C2 = 18
-    C3 = 19
-    C4 = 20
-    C5 = 21
-    C6 = 22
-    C7 = 23
-    C8 = 24
-    D1 = 25
-    D2 = 26
-    D3 = 27
-    D4 = 28
-    D5 = 29
-    D6 = 30
-    D7 = 31
-    D8 = 32
-    E1 = 33
-    E2 = 34
-    E3 = 35
-    E4 = 36
-    E5 = 37
-    E6 = 38
-    E7 = 39
-    E8 = 40
-    F1 = 41
-    F2 = 42
-    F3 = 43
-    F4 = 44
-    F5 = 45
-    F6 = 46
-    F7 = 47
-    F8 = 48
-    G1 = 49
-    G2 = 50
-    G3 = 51
-    G4 = 52
-    G5 = 53
-    G6 = 54
-    G7 = 55
-    G8 = 56
-    H1 = 57
-    H2 = 58
-    H3 = 59
-    H4 = 60
-    H5 = 61
-    H6 = 62
-    H7 = 63
-    H8 = 64
+    def columnForSquare(self, square):
+        """Returns the vertical line that corresponds to the square
+        given. Returns a list of 'coordinates' values."""
+        if not isinstance(square, Coordinates):
+            raise TypeError("square variable must be from Coordinates enum")
+        # Vertical lines all have the same letter
+
+    def _indexOf(self, square):
+        if not isinstance(square, Coordinates):
+            raise TypeError("square variable must be from Coordinates enum")
+
+    def _populateGraph(self):
+        """Creates a dictionary where each key represents a square
+        and the value is a list of the squares it is connected to."""
+        # graph = {}
+        # letter = 8
+        # number = 1
+        # for k in self.squares.keys():
+        #     edges = []
+        #     # There's 8 directions, going TRouBLe order
+        #     edges.append(k + number)            # top
+        #     edges.append(k + number + letter)   # top right
+        #     edges.append(k + letter)            # right
+        #     edges.append(k + letter - number)   # btm right
+        #     edges.append(k - number)            # btm
+        #     edges.append(k - letter - number)   # btm left
+        #     edges.append(k - letter)            # left
+        #     edges.append(k - letter + number)   # top left
+        #     # remove out of bounds
+        #     edges = [e for e in edges if e > 0 and e <= 64]
+        #     graph[k] = edges
+        # print(graph)
+        # return graph

@@ -10,8 +10,8 @@ class TestCheckers(unittest.TestCase):
     def test_content_is_saved_to_square(self):
         board = Gameboard()
         content = "whiteChip"
-        board.squares[Coordinates.A1].content = content
-        self.assertEqual(board.squares[Coordinates.A1].content,content)
+        board.squares[Coordinates.a1].content = content
+        self.assertEqual(board.squares[Coordinates.a1].content,content)
 
 # Then, he test moving pieces around
 
