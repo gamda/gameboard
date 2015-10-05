@@ -42,14 +42,14 @@ class Testboard(unittest.TestCase):
 
     def test_column_given_square(self):
         boardAnswer = self.board.columnForSquare(Coordinate.a1)
-        correctAnswer = [Coordinate.a1,
+        correctAnswer = {Coordinate.a1,
                         Coordinate.a2,
                         Coordinate.a3,
                         Coordinate.a4,
                         Coordinate.a5,
                         Coordinate.a6,
                         Coordinate.a7,
-                        Coordinate.a8]
+                        Coordinate.a8}
         self.assertEqual(boardAnswer,correctAnswer)
 
 if __name__ == '__main__':

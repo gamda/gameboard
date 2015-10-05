@@ -29,11 +29,24 @@ class Gameboard:
         self.graph = self._populateGraph()
 
     def columnForSquare(self, square):
-        """Returns the vertical line that corresponds to the square
-        given. Returns a list of 'Coordinate' values."""
+        """Returns  a list representing the vertical line that corresponds to the square given.
+
+        Args:
+            square (Coordinate): the square in the column to find
+        Returns:
+            list: elements are Coordinate elements in the column, including 'square'
+        Raises:
+            TypeError: if square is not of type Coordinate
+        """
         if not isinstance(square, Coordinate):
             raise TypeError("square variable must be from Coordinate enum")
-        # Vertical lines all have the same letter
+        # Vertical lines all have the same letter (y-value)
+        x, y = self._indexOf(square)
+        column = set()
+        for row in self.rows:
+            column.add(row[y])
+        print(column)
+        return column
 
     def _indexOf(self, square):
         """Returns a tuple with the index of given square in self.rows
