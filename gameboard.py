@@ -1,32 +1,57 @@
+from enum import Enum
 from square import Square
-from coordinates import Coordinates
+from coordinate import Coordinate
+
+class Direction(Enum):
+    top = 1
+    topRight = 2
+    right = 3
+    btmRight = 4
+    btm = 5
+    btmLeft = 6
+    left = 7
+    topLeft = 8
 
 class Gameboard:
-    rows = [[Coordinates.a8, Coordinates.b8, Coordinates.c8, Coordinates.d8, Coordinates.e8, Coordinates.f8, Coordinates.g8, Coordinates.h8],
-            [Coordinates.a7, Coordinates.b7, Coordinates.c7, Coordinates.d7, Coordinates.e7, Coordinates.f7, Coordinates.g7, Coordinates.h7],
-            [Coordinates.a6, Coordinates.b6, Coordinates.c6, Coordinates.d6, Coordinates.e6, Coordinates.f6, Coordinates.g6, Coordinates.h6],
-            [Coordinates.a5, Coordinates.b5, Coordinates.c5, Coordinates.d5, Coordinates.e5, Coordinates.f5, Coordinates.g5, Coordinates.h5],
-            [Coordinates.a4, Coordinates.b4, Coordinates.c4, Coordinates.d4, Coordinates.e4, Coordinates.f4, Coordinates.g4, Coordinates.h4],
-            [Coordinates.a3, Coordinates.b3, Coordinates.c3, Coordinates.d3, Coordinates.e3, Coordinates.f3, Coordinates.g3, Coordinates.h3],
-            [Coordinates.a2, Coordinates.b2, Coordinates.c2, Coordinates.d2, Coordinates.e2, Coordinates.f2, Coordinates.g2, Coordinates.h2],
-            [Coordinates.a1, Coordinates.b1, Coordinates.c1, Coordinates.d1, Coordinates.e1, Coordinates.f1, Coordinates.g1, Coordinates.h1]]
+    rows = [[Coordinate.a8, Coordinate.b8, Coordinate.c8, Coordinate.d8, Coordinate.e8, Coordinate.f8, Coordinate.g8, Coordinate.h8],
+            [Coordinate.a7, Coordinate.b7, Coordinate.c7, Coordinate.d7, Coordinate.e7, Coordinate.f7, Coordinate.g7, Coordinate.h7],
+            [Coordinate.a6, Coordinate.b6, Coordinate.c6, Coordinate.d6, Coordinate.e6, Coordinate.f6, Coordinate.g6, Coordinate.h6],
+            [Coordinate.a5, Coordinate.b5, Coordinate.c5, Coordinate.d5, Coordinate.e5, Coordinate.f5, Coordinate.g5, Coordinate.h5],
+            [Coordinate.a4, Coordinate.b4, Coordinate.c4, Coordinate.d4, Coordinate.e4, Coordinate.f4, Coordinate.g4, Coordinate.h4],
+            [Coordinate.a3, Coordinate.b3, Coordinate.c3, Coordinate.d3, Coordinate.e3, Coordinate.f3, Coordinate.g3, Coordinate.h3],
+            [Coordinate.a2, Coordinate.b2, Coordinate.c2, Coordinate.d2, Coordinate.e2, Coordinate.f2, Coordinate.g2, Coordinate.h2],
+            [Coordinate.a1, Coordinate.b1, Coordinate.c1, Coordinate.d1, Coordinate.e1, Coordinate.f1, Coordinate.g1, Coordinate.h1]]
     
     def __init__(self):
         self.squares = {}
-        for k in Coordinates:
+        for k in Coordinate:
             self.squares[k] = Square()
         self.graph = self._populateGraph()
 
     def columnForSquare(self, square):
         """Returns the vertical line that corresponds to the square
-        given. Returns a list of 'coordinates' values."""
-        if not isinstance(square, Coordinates):
-            raise TypeError("square variable must be from Coordinates enum")
+        given. Returns a list of 'Coordinate' values."""
+        if not isinstance(square, Coordinate):
+            raise TypeError("square variable must be from Coordinate enum")
         # Vertical lines all have the same letter
 
     def _indexOf(self, square):
-        if not isinstance(square, Coordinates):
-            raise TypeError("square variable must be from Coordinates enum")
+        """Returns a tuple with the index of given square in self.rows
+
+        Args:
+            square (Coordinate): the square to find index for
+        Returns:
+            tuple: it has the form (x,y). The square can be found by accessing
+            self.rows[x][y]
+        Raises:
+            TypeError: if square is not of type Coordinate
+
+        """
+        if not isinstance(square, Coordinate):
+            raise TypeError("square variable must be from Coordinate enum")
+        for i in range(len(self.rows)):
+            if square in self.rows[i]:
+                return (i,self.rows[i].index(square))
 
     def _populateGraph(self):
         """Creates a dictionary where each key represents a square
