@@ -1,5 +1,5 @@
 from enum import Enum
-from coordinate import Coordinate
+from gameboard.coordinate import Coordinate
 
 class Direction(Enum):
     top = 1

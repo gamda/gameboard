@@ -1,7 +1,7 @@
 import unittest
 import random
-from gameboard import Gameboard, Direction
-from coordinate import Coordinate
+from gameboard.gameboard import Gameboard, Direction
+from gameboard.coordinate import Coordinate
 
 class TestBoard(unittest.TestCase):
 
