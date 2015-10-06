@@ -1,5 +1,4 @@
 from enum import Enum
-from square import Square
 from coordinate import Coordinate
 
 class Direction(Enum):
@@ -12,7 +11,12 @@ class Direction(Enum):
     left = 7
     topLeft = 8
 
+
+SHIFT_SQUARE = 1
+SHIFT_LETTER = 8 # because adding and substracting 8 will shift a column
+
 class Gameboard:
+
     rows = [[Coordinate.a8, Coordinate.b8, Coordinate.c8, Coordinate.d8, Coordinate.e8, Coordinate.f8, Coordinate.g8, Coordinate.h8],
             [Coordinate.a7, Coordinate.b7, Coordinate.c7, Coordinate.d7, Coordinate.e7, Coordinate.f7, Coordinate.g7, Coordinate.h7],
             [Coordinate.a6, Coordinate.b6, Coordinate.c6, Coordinate.d6, Coordinate.e6, Coordinate.f6, Coordinate.g6, Coordinate.h6],
@@ -45,6 +49,93 @@ class Gameboard:
             if square in self.rows[i]:
                 return (i,self.rows[i].index(square))
 
+    def _neighborTop(self, square):
+        top = square + SHIFT_SQUARE
+        if top // SHIFT_LETTER == square // SHIFT_LETTER:
+            return Coordinate(top)
+        return None
+
+    def _neighborTopRight(self, square):
+        tr = square + SHIFT_LETTER + SHIFT_SQUARE
+        if tr // SHIFT_LETTER == square // SHIFT_LETTER + 1 and \
+           tr < 64: # make sure it's a column to the right and not out of bounds
+            return Coordinate(tr)
+        return None
+
+    def _neighborRight(self, square):
+        right = square + SHIFT_LETTER
+        if right // SHIFT_LETTER == square // SHIFT_LETTER + 1 and \
+           right < 64:
+            return Coordinate(right)
+        return None
+
+    def _neighborBtmRight(self, square):
+        br = square + SHIFT_LETTER - SHIFT_SQUARE
+        if br // SHIFT_LETTER == square // SHIFT_LETTER + 1 and \
+           br < 64:
+            return Coordinate(br)
+        return None
+
+    def _neighborBtm(self, square):
+        btm = square - SHIFT_SQUARE
+        if (btm // SHIFT_LETTER) == (square // SHIFT_LETTER):
+            return Coordinate(btm)
+        return None
+
+    def _neighborBtmLeft(self, square):
+        bl = square - SHIFT_LETTER - SHIFT_SQUARE
+        if bl // SHIFT_LETTER == square // SHIFT_LETTER - 1 and \
+           bl >= 0:
+            return Coordinate(bl)
+        return None
+
+    def _neighborLeft(self, square):
+        left = square - SHIFT_LETTER
+        if left // SHIFT_LETTER == square // SHIFT_LETTER - 1 and \
+           left >= 0:
+            return Coordinate(left)
+        return None
+
+    def _neighborTopLeft(self, square):
+        tl = square - SHIFT_LETTER + SHIFT_SQUARE
+        if tl // SHIFT_LETTER == square // SHIFT_LETTER - 1 and \
+           tl >= 0:
+            return Coordinate(tl)
+        return None
+
+    def neighborInDirection(self, square, direction):
+        """Returns a Coordinate object or None if the neighbor doesn't exist
+
+        Args:
+            square (Coordinate): the square whose neighbor we'll find
+            direction (Direction): the direction in which to look for the neighbor
+        Returns:
+            Coordinate: the coordinate of the neighbor in the given direction, None
+            if no neighbor exists in that direction
+        Raises:
+            TypeError: if square is not Coordinate or if direction is not Direction
+        """
+        if not isinstance(square, Coordinate):
+            raise TypeError("square variable must be from Coordinate enum")
+        if not isinstance(direction, Direction):
+            raise TypeError("direction must be from Direction enum")
+        if direction == Direction.top:
+            return self._neighborTop(square)
+        if direction == Direction.topRight:
+            return self._neighborTopRight(square)
+        if direction == Direction.right:
+            return self._neighborRight(square)
+        if direction == Direction.btmRight:
+            return self._neighborBtmRight(square)
+        if direction == Direction.btm:
+            return self._neighborBtm(square)
+        if direction == Direction.btmLeft:
+            return self._neighborBtmLeft(square)
+        if direction == Direction.left:
+            return self._neighborLeft(square)
+        if direction == Direction.topLeft:
+            return self._neighborTopLeft(square)
+
     def neighbors(self, square):
         """Returns a dictionary dict[Direction]=Coordinate.
 
@@ -58,51 +149,14 @@ class Gameboard:
         """
         if not isinstance(square, Coordinate):
             raise TypeError("square variable must be from Coordinate enum")
-        number = 1
-        letter = 8 # because adding and substracting 8 will shift a column
-        neighbors = {Direction.top: None,
-                    Direction.topRight: None,
-                    Direction.right: None,
-                    Direction.btmRight: None,
-                    Direction.btm: None,
-                    Direction.btmLeft: None,
-                    Direction.left: None,
-                    Direction.topLeft: None}
-
-        top     = square + number
-        tr      = square + letter + number
-        right   = square + letter
-        br      = square + letter - number
-        btm     = square - number
-        bl      = square - letter - number
-        left    = square - letter
-        tl      = square - letter + number
-
-        if (top // letter) == (square // letter):
-            neighbors[Direction.top] = Coordinate(top)
-
-        if (tr // letter) == (square // letter + 1) and tr < 64:
-            neighbors[Direction.topRight]  = Coordinate(tr)
-
-        if (right // letter) == (square // letter + 1) and right < 64:
-            neighbors[Direction.right]  = Coordinate(right)
-
-        if (br // letter) == (square // letter + 1) and br < 64:
-            neighbors[Direction.btmRight]  = Coordinate(br)
-
-        if (btm // letter) == (square // letter):
-            neighbors[Direction.btm]  = Coordinate(btm)
-
-        if (bl // letter) == (square // letter - 1) and bl >= 0:
-            neighbors[Direction.btmLeft]  = Coordinate(bl)
-
-        if (left // letter) == (square // letter - 1) and left >= 0:
-            neighbors[Direction.left]  = Coordinate(left)
-
-        if (tl // letter) == (square // letter - 1) and tl >= 0:
-            neighbors[Direction.topLeft]  = Coordinate(tl)
-
-        return neighbors
+        return {Direction.top: self._neighborTop(square),
+                Direction.topRight: self._neighborTopRight(square),
+                Direction.right: self._neighborRight(square),
+                Direction.btmRight: self._neighborBtmRight(square),
+                Direction.btm: self._neighborBtm(square),
+                Direction.btmLeft: self._neighborBtmLeft(square),
+                Direction.left: self._neighborLeft(square),
+                Direction.topLeft: self._neighborTopLeft(square)}
 
     def rowForSquare(self, square):
         """Returns a list representing the horizontal line where the square given belongs.

@@ -38,120 +38,200 @@ class TestBoard(unittest.TestCase):
         index = self.board._indexOf(Coordinate.d3)
         self.assertEqual(index,(5,3))
 
+    def test_neighbor_top_with_top_square(self):
+        n = self.board._neighborTop(Coordinate.a8)
+        self.assertEqual(n, None)
+
+    def test_neighbor_top(self):
+        n = self.board._neighborTop(Coordinate.d3)
+        self.assertEqual(n, Coordinate.d4)
+
+    def test_neighbor_top_right_with_top_square(self):
+        n = self.board._neighborTopRight(Coordinate.b8)
+        self.assertEqual(n, None)
+
+    def test_neighbor_top_right_with_right_square(self):
+        n = self.board._neighborTopRight(Coordinate.h5)
+        self.assertEqual(n, None)
+
+    def test_neighbor_top_right(self):
+        n = self.board._neighborTopRight(Coordinate.f3)
+        self.assertEqual(n, Coordinate.g4)
+
+    def test_neighbor_right_with_right_square(self):
+        n = self.board._neighborRight(Coordinate.h5)
+        self.assertEqual(n, None)
+
+    def test_neighbor_right(self):
+        n = self.board._neighborRight(Coordinate.d3)
+        self.assertEqual(n, Coordinate.e3)
+
+    def test_neighbor_btm_right_with_btm_square(self):
+        n = self.board._neighborBtmRight(Coordinate.b1)
+        self.assertEqual(n, None)
+
+    def test_neighbor_btm_right_with_right_square(self):
+        n = self.board._neighborBtmRight(Coordinate.h5)
+        self.assertEqual(n, None)
+
+    def test_neighbor_btm_right(self):
+        n = self.board._neighborBtmRight(Coordinate.f3)
+        self.assertEqual(n, Coordinate.g2)
+
+    def test_neighbor_btm_with_btm_square(self):
+        n = self.board._neighborBtm(Coordinate.a1)
+        self.assertEqual(n, None)
+
+    def test_neighbor_btm(self):
+        n = self.board._neighborBtm(Coordinate.d3)
+        self.assertEqual(n, Coordinate.d2)
+
+    def test_neighbor_btm_left_with_btm_square(self):
+        n = self.board._neighborBtmLeft(Coordinate.b1)
+        self.assertEqual(n, None)
+
+    def test_neighbor_btm_left_with_left_square(self):
+        n = self.board._neighborBtmLeft(Coordinate.a6)
+        self.assertEqual(n, None)
+
+    def test_neighbor_btm_left(self):
+        n = self.board._neighborBtmLeft(Coordinate.f3)
+        self.assertEqual(n, Coordinate.e2)
+
+    def test_neighbor_left_with_left_square(self):
+        n = self.board._neighborLeft(Coordinate.a5)
+        self.assertEqual(n, None)
+
+    def test_neighbor_left(self):
+        n = self.board._neighborLeft(Coordinate.d3)
+        self.assertEqual(n, Coordinate.c3)
+
+    def test_neighbor_top_left_with_top_square(self):
+        n = self.board._neighborTopLeft(Coordinate.b8)
+        self.assertEqual(n, None)
+
+    def test_neighbor_top_left_with_left_square(self):
+        n = self.board._neighborTopLeft(Coordinate.a5)
+        self.assertEqual(n, None)
+
+    def test_neighbor_top_left(self):
+        n = self.board._neighborTopLeft(Coordinate.f3)
+        self.assertEqual(n, Coordinate.e4)
+
+    def test_neighbor_in_direction_raises_TypeError(self):
+        self.assertRaises(TypeError, self.board.neighborInDirection,
+            square = "notCoordinate",
+            direction = Direction.top)
+        self.assertRaises(TypeError, self.board.neighborInDirection,
+            square = Coordinate.a1,
+            direction = "notDirection")
+
+    def test_neighbor_in_direction_top(self):
+        n = self.board.neighborInDirection(Coordinate.d3, Direction.top)
+        self.assertEqual(n, Coordinate.d4)
+
+    def test_neighbor_in_direction_top_right(self):
+        n = self.board.neighborInDirection(Coordinate.d3, Direction.topRight)
+        self.assertEqual(n, Coordinate.e4)
+
+    def test_neighbor_in_direction_right(self):
+        n = self.board.neighborInDirection(Coordinate.d3, Direction.right)
+        self.assertEqual(n, Coordinate.e3)
+
+    def test_neighbor_in_direction_btm_right(self):
+        n = self.board.neighborInDirection(Coordinate.d3, Direction.btmRight)
+        self.assertEqual(n, Coordinate.e2)
+
+    def test_neighbor_in_direction_btm(self):
+        n = self.board.neighborInDirection(Coordinate.d3, Direction.btm)
+        self.assertEqual(n, Coordinate.d2)
+
+    def test_neighbor_in_directino_btm_left(self):
+        n = self.board.neighborInDirection(Coordinate.d3, Direction.btmLeft)
+        self.assertEqual(n, Coordinate.c2)
+
+    def test_neighbor_in_direction_left(self):
+        n = self.board.neighborInDirection(Coordinate.d3, Direction.left)
+        self.assertEqual(n, Coordinate.c3)
+
+    def test_neighbor_in_direction_top_left(self):
+        n = self.board.neighborInDirection(Coordinate.d3, Direction.topLeft)
+        self.assertEqual(n, Coordinate.c4)
+
     def test_neighbors_raises_TypeError(self):
         self.assertRaises(TypeError,self.board.neighbors,"notCoordinate")
 
-    def test_neighbors_top(self):
-        corner = self.board.neighbors(Coordinate.a1)[Direction.top]
-        self.assertEqual(corner, Coordinate.a2)
-        top = self.board.neighbors(Coordinate.c8)[Direction.top]
-        self.assertEqual(top, None)
-        right = self.board.neighbors(Coordinate.h7)[Direction.top]
-        self.assertEqual(right, Coordinate.h8)
-        bottom = self.board.neighbors(Coordinate.d1)[Direction.top]
-        self.assertEqual(bottom, Coordinate.d2)
-        left = self.board.neighbors(Coordinate.a5)[Direction.top]
-        self.assertEqual(left, Coordinate.a6)
-        center = self.board.neighbors(Coordinate.d3)[Direction.top]
-        self.assertEqual(center, Coordinate.d4)
+    def test_neighbors_corner(self):
+        n = self.board.neighbors(Coordinate.a1)
+        correct = {Direction.top: Coordinate.a2,
+                    Direction.topRight: Coordinate.b2,
+                    Direction.right: Coordinate.b1,
+                    Direction.btmRight: None,
+                    Direction.btm: None,
+                    Direction.btmLeft: None,
+                    Direction.left: None,
+                    Direction.topLeft: None}
+        self.assertEqual(n, correct)
 
-    def test_neighbors_top_right(self):
-        corner = self.board.neighbors(Coordinate.a1)[Direction.topRight]
-        self.assertEqual(corner, Coordinate.b2)
-        top = self.board.neighbors(Coordinate.c8)[Direction.topRight]
-        self.assertEqual(top, None)
-        right = self.board.neighbors(Coordinate.h7)[Direction.topRight]
-        self.assertEqual(right, None)
-        bottom = self.board.neighbors(Coordinate.d1)[Direction.topRight]
-        self.assertEqual(bottom, Coordinate.e2)
-        left = self.board.neighbors(Coordinate.a5)[Direction.topRight]
-        self.assertEqual(left, Coordinate.b6)
-        center = self.board.neighbors(Coordinate.d3)[Direction.topRight]
-        self.assertEqual(center, Coordinate.e4)
+    def test_neighbors_top(self):
+        n = self.board.neighbors(Coordinate.c8)
+        correct = {Direction.top: None,
+                    Direction.topRight: None,
+                    Direction.right: Coordinate.d8,
+                    Direction.btmRight: Coordinate.d7,
+                    Direction.btm: Coordinate.c7,
+                    Direction.btmLeft: Coordinate.b7,
+                    Direction.left: Coordinate.b8,
+                    Direction.topLeft: None}
+        self.assertEqual(n, correct)
 
     def test_neighbors_right(self):
-        corner = self.board.neighbors(Coordinate.a1)[Direction.right]
-        self.assertEqual(corner, Coordinate.b1)
-        top = self.board.neighbors(Coordinate.c8)[Direction.right]
-        self.assertEqual(top, Coordinate.d8)
-        right = self.board.neighbors(Coordinate.h7)[Direction.right]
-        self.assertEqual(right, None)
-        bottom = self.board.neighbors(Coordinate.d1)[Direction.right]
-        self.assertEqual(bottom, Coordinate.e1)
-        left = self.board.neighbors(Coordinate.a5)[Direction.right]
-        self.assertEqual(left, Coordinate.b5)
-        center = self.board.neighbors(Coordinate.d3)[Direction.right]
-        self.assertEqual(center, Coordinate.e3)
+        n = self.board.neighbors(Coordinate.h7)
+        correct = {Direction.top: Coordinate.h8,
+                    Direction.topRight: None,
+                    Direction.right: None,
+                    Direction.btmRight: None,
+                    Direction.btm: Coordinate.h6,
+                    Direction.btmLeft: Coordinate.g6,
+                    Direction.left: Coordinate.g7,
+                    Direction.topLeft: Coordinate.g8}
+        self.assertEqual(n, correct)
 
-    def test_neighbors_btm_right(self):
-        corner = self.board.neighbors(Coordinate.a1)[Direction.btmRight]
-        self.assertEqual(corner, None)
-        top = self.board.neighbors(Coordinate.c8)[Direction.btmRight]
-        self.assertEqual(top, Coordinate.d7)
-        right = self.board.neighbors(Coordinate.h7)[Direction.btmRight]
-        self.assertEqual(right, None)
-        bottom = self.board.neighbors(Coordinate.d1)[Direction.btmRight]
-        self.assertEqual(bottom, None)
-        left = self.board.neighbors(Coordinate.a5)[Direction.btmRight]
-        self.assertEqual(left, Coordinate.b4)
-        center = self.board.neighbors(Coordinate.d3)[Direction.btmRight]
-        self.assertEqual(center, Coordinate.e2)
-
-    def test_neighbors_btm(self):
-        corner = self.board.neighbors(Coordinate.a1)[Direction.btm]
-        self.assertEqual(corner, None)
-        top = self.board.neighbors(Coordinate.c8)[Direction.btm]
-        self.assertEqual(top, Coordinate.c7)
-        right = self.board.neighbors(Coordinate.h7)[Direction.btm]
-        self.assertEqual(right, Coordinate.h6)
-        bottom = self.board.neighbors(Coordinate.d1)[Direction.btm]
-        self.assertEqual(bottom, None)
-        left = self.board.neighbors(Coordinate.a5)[Direction.btm]
-        self.assertEqual(left, Coordinate.a4)
-        center = self.board.neighbors(Coordinate.d3)[Direction.btm]
-        self.assertEqual(center, Coordinate.d2)
-
-    def test_neighbors_btm_left(self):
-        corner = self.board.neighbors(Coordinate.a1)[Direction.btmLeft]
-        self.assertEqual(corner, None)
-        top = self.board.neighbors(Coordinate.c8)[Direction.btmLeft]
-        self.assertEqual(top, Coordinate.b7)
-        right = self.board.neighbors(Coordinate.h7)[Direction.btmLeft]
-        self.assertEqual(right, Coordinate.g6)
-        bottom = self.board.neighbors(Coordinate.d1)[Direction.btmLeft]
-        self.assertEqual(bottom, None)
-        left = self.board.neighbors(Coordinate.a5)[Direction.btmLeft]
-        self.assertEqual(left, None)
-        center = self.board.neighbors(Coordinate.d3)[Direction.btmLeft]
-        self.assertEqual(center, Coordinate.c2)
+    def test_neighbors_bottom(self):
+        n = self.board.neighbors(Coordinate.d1)
+        correct = {Direction.top: Coordinate.d2,
+                    Direction.topRight: Coordinate.e2,
+                    Direction.right: Coordinate.e1,
+                    Direction.btmRight: None,
+                    Direction.btm: None,
+                    Direction.btmLeft: None,
+                    Direction.left: Coordinate.c1,
+                    Direction.topLeft: Coordinate.c2}
+        self.assertEqual(n, correct)
 
     def test_neighbors_left(self):
-        corner = self.board.neighbors(Coordinate.a1)[Direction.left]
-        self.assertEqual(corner, None)
-        top = self.board.neighbors(Coordinate.c8)[Direction.left]
-        self.assertEqual(top, Coordinate.b8)
-        right = self.board.neighbors(Coordinate.h7)[Direction.left]
-        self.assertEqual(right, Coordinate.g7)
-        bottom = self.board.neighbors(Coordinate.d1)[Direction.left]
-        self.assertEqual(bottom, Coordinate.c1)
-        left = self.board.neighbors(Coordinate.a5)[Direction.left]
-        self.assertEqual(left, None)
-        center = self.board.neighbors(Coordinate.d3)[Direction.left]
-        self.assertEqual(center, Coordinate.c3)
+        n = self.board.neighbors(Coordinate.a5)
+        correct = {Direction.top: Coordinate.a6,
+                    Direction.topRight: Coordinate.b6,
+                    Direction.right: Coordinate.b5,
+                    Direction.btmRight: Coordinate.b4,
+                    Direction.btm: Coordinate.a4,
+                    Direction.btmLeft: None,
+                    Direction.left: None,
+                    Direction.topLeft: None}
+        self.assertEqual(n, correct)
 
-    def test_neighbors_top_left(self):
-        corner = self.board.neighbors(Coordinate.a1)[Direction.topLeft]
-        self.assertEqual(corner, None)
-        top = self.board.neighbors(Coordinate.c8)[Direction.topLeft]
-        self.assertEqual(top, None)
-        right = self.board.neighbors(Coordinate.h7)[Direction.topLeft]
-        self.assertEqual(right, Coordinate.g8)
-        bottom = self.board.neighbors(Coordinate.d1)[Direction.topLeft]
-        self.assertEqual(bottom, Coordinate.c2)
-        left = self.board.neighbors(Coordinate.a5)[Direction.topLeft]
-        self.assertEqual(left, None)
-        center = self.board.neighbors(Coordinate.d3)[Direction.topLeft]
-        self.assertEqual(center, Coordinate.c4)
+    def test_neighbors_center(self):
+        n = self.board.neighbors(Coordinate.d3)
+        correct = {Direction.top: Coordinate.d4,
+                    Direction.topRight: Coordinate.e4,
+                    Direction.right: Coordinate.e3,
+                    Direction.btmRight: Coordinate.e2,
+                    Direction.btm: Coordinate.d2,
+                    Direction.btmLeft: Coordinate.c2,
+                    Direction.left: Coordinate.c3,
+                    Direction.topLeft: Coordinate.c4}
+        self.assertEqual(n, correct)
 
     def test_row_for_square_raises_TypeError(self):
         self.assertRaises(TypeError,self.board.rowForSquare,"notCoordinate")
