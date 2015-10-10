@@ -306,6 +306,51 @@ class TestBoard(unittest.TestCase):
                         Coordinate.g1]
         self.assertEqual(sorted(boardAnswer),sorted(correctAnswer))
 
+    def test_path_in_direction_raises_TypeError(self):
+        self.assertRaises(TypeError, self.board.pathInDirection,
+            origin = "notCoordinate",
+            destination = Coordinate.a3,
+            direction = Direction.top)
+        self.assertRaises(TypeError, self.board.pathInDirection,
+            origin = Coordinate.a1,
+            destination = "notCoordinate",
+            direction = Direction.btm)
+        self.assertRaises(TypeError, self.board.pathInDirection,
+            origin = Coordinate.a1,
+            destination = Coordinate.b4,
+            direction = "notDirection")
+
+    def test_path_in_direction_top(self):
+        path = self.board.pathInDirection(Coordinate.d3, Coordinate.d7, \
+                                            Direction.top) 
+        correctPath = [Coordinate.d4,
+                        Coordinate.d5,
+                        Coordinate.d6]
+        self.assertEqual(path, correctPath)                  
+
+    def test_path_in_direction_top_right(self):
+        path = self.board.pathInDirection(Coordinate.a1, Coordinate.h8, \
+                                            Direction.topRight)
+        correctPath = [Coordinate.b2,
+                        Coordinate.c3,
+                        Coordinate.d4,
+                        Coordinate.e5,
+                        Coordinate.f6,
+                        Coordinate.g7]
+        self.assertEqual(path, correctPath)
+
+    def test_path_in_direction_unreachable(self):
+        path = self.board.pathInDirection(Coordinate.a8, Coordinate.h8, \
+                                            Direction.btm)
+        correctPath = []
+        self.assertEqual(path, correctPath)
+
+    def test_path_in_direction_out_of_bounds(self):
+        path = self.board.pathInDirection(Coordinate.a8, Coordinate.a1, \
+                                            Direction.left)
+        correctPath = []
+        self.assertEqual(path, correctPath)
+
     def test_square_content_raises_TypeError(self):
         self.assertRaises(TypeError,self.board.getContent,"notCoordinate")
 

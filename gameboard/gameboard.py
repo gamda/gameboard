@@ -256,6 +256,39 @@ class Gameboard:
             diagonals.append(self.rows[rowIndex][colIndex])
         return diagonals
 
+    def pathInDirection(self, origin, destination, direction):
+        """Returns a list with the points from origin to destination, empty if unreachable
+
+        Args:
+            origin (Coordinate): the square to start from
+            destination (Coordinate): the square to reach
+            direction (Direction): direction to move in
+        Returns:
+            list: elements are Coordinate elements in the path from origin to destination
+            the list is returned empty if destination is not reached in specified direction
+            from origin
+        Raises:
+            TypeError: if origin or destination is not of type Coordinate, or if direction
+            is not of type Direction
+        """
+        if not isinstance(origin, Coordinate):
+            raise TypeError("origin variable must be from Coordinate enum")
+        if not isinstance(destination, Coordinate):
+            raise TypeError("dsetination variable must be from Coordinate enum")
+        if not isinstance(direction, Direction):
+            raise TypeError("direction variable must be from Direction enum")
+        path = []
+        square = self.neighborInDirection(origin, direction)
+        foundDestination = False
+        while square != None:
+            path.append(square)
+            square = self.neighborInDirection(square, direction)
+            if square is destination:
+                foundDestination = True
+                break
+        print(path)
+        return path if foundDestination else []
+
     def setContent(self, square, content):
         """No return value, updates the chosen square with the given content.
 
