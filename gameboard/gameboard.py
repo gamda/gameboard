@@ -286,7 +286,6 @@ class Gameboard:
             if square is destination:
                 foundDestination = True
                 break
-        print(path)
         return path if foundDestination else []
 
     def setContent(self, square, content):
