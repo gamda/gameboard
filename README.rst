@@ -10,6 +10,7 @@ See the file LICENSE.txt for copying permission.
 Public methods:
 
 neighborInDirection(square, direction):
+
 Args:
     *square* (**Coordinate**): the square whose neighbor we'll find
     *direction* (**Direction**): the direction in which to look for the neighbor
@@ -20,6 +21,7 @@ Raises:
     *TypeError*: if *square* is not **Coordinate** or if *direction* is not **Direction**
 
 neighbors(square):
+
 Args:
     *square* (**Coordinate**): the square to get neighbors from
 Returns:
@@ -29,6 +31,7 @@ Raises:
     *TypeError*: if *square* is not of type **Coordinate**
 
 rowForSquare(square):
+
 Args:
     *square* (**Coordinate**): the square in the row to find
 Returns:
@@ -38,6 +41,7 @@ Raises:
 
 
 columnForSquare(square):
+
 Args:
     *square* (**Coordinate**): the square in the column to find
 Returns:
@@ -47,6 +51,7 @@ Raises:
 
 
 rowAndColumnForSquare(square):
+
 Args:
     *square* (**Coordinate**): the square in the row to find
 Returns:
@@ -56,6 +61,7 @@ Raises:
 
 
 diagonalsForSquare(square):
+
 Args:
     *square* (**Coordinate**): the square in the diagonals to find
 Returns:
@@ -65,6 +71,7 @@ Raises:
 
 
 pathInDirection(origin, destination, direction):
+
 Args:
     *origin* (**Coordinate**): the square to start from
     *destination* (**Coordinate**): the square to reach
@@ -79,6 +86,7 @@ Raises:
 
 
 setContent(square, content):
+
 Args:
     *square* (**Coordinate**): the square to update
     *content*: the content to store inside the square
@@ -87,6 +95,7 @@ Raises:
 
 
 getContent(square):
+
 Args:
     *square* (**Coordinate**): the square to check content from
 Returns:
@@ -96,6 +105,7 @@ Raises:
 
 
 isEmpty(square):
+
 Args:
     *square* (**Coordinate**): the square to check
 Returns:
@@ -105,6 +115,7 @@ Raises:
 
 
 clearSquare(square):
+
 Args:
     *square* (**Coordinate**): the square to clear
 Raises:
@@ -116,6 +127,7 @@ No return value. Sets the content of all squares to *None*
 
 
 move(origin, destination):
+
 Args:
     *origin* (**Coordinate**): the square to move from
     *destination* (**Coordinate**): the square to move to
