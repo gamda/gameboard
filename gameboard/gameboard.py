@@ -1,3 +1,7 @@
+# Copyright (c) 2015 Daniel Garcia
+#
+# See the file LICENSE.txt for copying permission.
+
 from enum import Enum
 from gameboard.coordinate import Coordinate
 
