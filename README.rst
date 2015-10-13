@@ -10,126 +10,114 @@ See the file LICENSE.txt for copying permission.
 Public methods:
 
 neighborInDirection(square, direction):
-
-Args:
+    Args:
     *square* (**Coordinate**): the square whose neighbor we'll find
     *direction* (**Direction**): the direction in which to look for the neighbor
-Returns:
+    Returns:
     *Coordinate*: the coordinate of the neighbor in the given direction, *None*
     if no neighbor exists in that direction
-Raises:
+    Raises:
     *TypeError*: if *square* is not **Coordinate** or if *direction* is not **Direction**
 
 neighbors(square):
-
-Args:
+    Args:
     *square* (**Coordinate**): the square to get neighbors from
-Returns:
+    Returns:
     *Dictionary*: keys are **Direction** values; values are **Coordinate** elements 
     of the corresponding neighbor, *None* if neighbor doesn't exist
-Raises:
+    Raises:
     *TypeError*: if *square* is not of type **Coordinate**
 
 rowForSquare(square):
-
-Args:
+    Args:
     *square* (**Coordinate**): the square in the row to find
-Returns:
+    Returns:
     *list*: elements are **Coordinate** elements in the row, including *square*
-Raises:
+    Raises:
     *TypeError*: if *square* is not of type **Coordinate**
 
 
 columnForSquare(square):
-
-Args:
+    Args:
     *square* (**Coordinate**): the square in the column to find
-Returns:
+    Returns:
     *list*: elements are **Coordinate** elements in the column, including *square*
-Raises:
+    Raises:
     *TypeError*: if *square* is not of type **Coordinate**
 
 
 rowAndColumnForSquare(square):
-
-Args:
+    Args:
     *square* (**Coordinate**): the square in the row to find
-Returns:
+    Returns:
     *list*: elements are **Coordinate** elements in the row and column, including *square*
-Raises:
+    Raises:
     *TypeError*: if *square* is not of type **Coordinate**
 
 
 diagonalsForSquare(square):
-
-Args:
+    Args:
     *square* (**Coordinate**): the square in the diagonals to find
-Returns:
+    Returns:
     *list*: elements are **Coordinate** elements in the diagonals, including *square*
-Raises:
+    Raises:
     *TypeError*: if *square* is not of type **Coordinate**
 
 
 pathInDirection(origin, destination, direction):
-
-Args:
+    Args:
     *origin* (**Coordinate**): the square to start from
     *destination* (**Coordinate**): the square to reach
     *direction* (**Direction**): direction to move in
-Returns:
+    Returns:
     *list*: elements are **Coordinate** elements in the path from *origin* to *destination*
     the list is returned empty if *destination* is not reached in specified *direction*
     from *origin*
-Raises:
+    Raises:
     *TypeError*: if *origin* or *destination* is not of type **Coordinate**, or 
     if *direction* is not of type **Direction**
 
 
 setContent(square, content):
-
-Args:
+    Args:
     *square* (**Coordinate**): the square to update
     *content*: the content to store inside the square
-Raises:
+    Raises:
     *TypeError*: if *square* is not of type **Coordinate**
 
 
 getContent(square):
-
-Args:
+    Args:
     *square* (**Coordinate**): the square to check content from
-Returns:
+    Returns:
     *content*: the content previously stored in the square by user
-Raises:
+    Raises:
     *TypeError*: if *square* is not of type **Coordinate**
 
 
 isEmpty(square):
-
-Args:
+    Args:
     *square* (**Coordinate**): the square to check
-Returns:
+    Returns:
     boolean: **True** if *square* is empty
-Raises:
+    Raises:
     *TypeError*: if *square* is not of type **Coordinate**
 
 
 clearSquare(square):
-
-Args:
+    Args:
     *square* (**Coordinate**): the square to clear
-Raises:
+    Raises:
     *TypeError*: if *square* is not of type **Coordinate**
 
 
 clearBoard(self):
-No return value. Sets the content of all squares to *None*
+    No return value. Sets the content of all squares to *None*
 
 
 move(origin, destination):
-
-Args:
+    Args:
     *origin* (**Coordinate**): the square to move from
     *destination* (**Coordinate**): the square to move to
-Raises:
+    Raises:
     *TypeError*: if *square* is not of type **Coordinate**
