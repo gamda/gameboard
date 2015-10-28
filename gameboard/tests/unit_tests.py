@@ -43,123 +43,123 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(index,(5,3))
 
     def test_neighbor_top_with_top_square(self):
-        n = self.board._neighborTop(Coordinate.a8)
+        n = self.board._neighbor_top(Coordinate.a8)
         self.assertEqual(n, None)
 
     def test_neighbor_top(self):
-        n = self.board._neighborTop(Coordinate.d3)
+        n = self.board._neighbor_top(Coordinate.d3)
         self.assertEqual(n, Coordinate.d4)
 
     def test_neighbor_top_right_with_top_square(self):
-        n = self.board._neighborTopRight(Coordinate.b8)
+        n = self.board._neighbor_top_right(Coordinate.b8)
         self.assertEqual(n, None)
 
     def test_neighbor_top_right_with_right_square(self):
-        n = self.board._neighborTopRight(Coordinate.h5)
+        n = self.board._neighbor_top_right(Coordinate.h5)
         self.assertEqual(n, None)
 
     def test_neighbor_top_right(self):
-        n = self.board._neighborTopRight(Coordinate.f3)
+        n = self.board._neighbor_top_right(Coordinate.f3)
         self.assertEqual(n, Coordinate.g4)
 
     def test_neighbor_right_with_right_square(self):
-        n = self.board._neighborRight(Coordinate.h5)
+        n = self.board._neighbor_right(Coordinate.h5)
         self.assertEqual(n, None)
 
     def test_neighbor_right(self):
-        n = self.board._neighborRight(Coordinate.d3)
+        n = self.board._neighbor_right(Coordinate.d3)
         self.assertEqual(n, Coordinate.e3)
 
     def test_neighbor_btm_right_with_btm_square(self):
-        n = self.board._neighborBtmRight(Coordinate.b1)
+        n = self.board._neighbor_btm_right(Coordinate.b1)
         self.assertEqual(n, None)
 
     def test_neighbor_btm_right_with_right_square(self):
-        n = self.board._neighborBtmRight(Coordinate.h5)
+        n = self.board._neighbor_btm_right(Coordinate.h5)
         self.assertEqual(n, None)
 
     def test_neighbor_btm_right(self):
-        n = self.board._neighborBtmRight(Coordinate.f3)
+        n = self.board._neighbor_btm_right(Coordinate.f3)
         self.assertEqual(n, Coordinate.g2)
 
     def test_neighbor_btm_with_btm_square(self):
-        n = self.board._neighborBtm(Coordinate.a1)
+        n = self.board._neighbor_btm(Coordinate.a1)
         self.assertEqual(n, None)
 
     def test_neighbor_btm(self):
-        n = self.board._neighborBtm(Coordinate.d3)
+        n = self.board._neighbor_btm(Coordinate.d3)
         self.assertEqual(n, Coordinate.d2)
 
     def test_neighbor_btm_left_with_btm_square(self):
-        n = self.board._neighborBtmLeft(Coordinate.b1)
+        n = self.board._neighbor_btm_left(Coordinate.b1)
         self.assertEqual(n, None)
 
     def test_neighbor_btm_left_with_left_square(self):
-        n = self.board._neighborBtmLeft(Coordinate.a6)
+        n = self.board._neighbor_btm_left(Coordinate.a6)
         self.assertEqual(n, None)
 
     def test_neighbor_btm_left(self):
-        n = self.board._neighborBtmLeft(Coordinate.f3)
+        n = self.board._neighbor_btm_left(Coordinate.f3)
         self.assertEqual(n, Coordinate.e2)
 
     def test_neighbor_left_with_left_square(self):
-        n = self.board._neighborLeft(Coordinate.a5)
+        n = self.board._neighbor_left(Coordinate.a5)
         self.assertEqual(n, None)
 
     def test_neighbor_left(self):
-        n = self.board._neighborLeft(Coordinate.d3)
+        n = self.board._neighbor_left(Coordinate.d3)
         self.assertEqual(n, Coordinate.c3)
 
     def test_neighbor_top_left_with_top_square(self):
-        n = self.board._neighborTopLeft(Coordinate.b8)
+        n = self.board._neighbor_top_left(Coordinate.b8)
         self.assertEqual(n, None)
 
     def test_neighbor_top_left_with_left_square(self):
-        n = self.board._neighborTopLeft(Coordinate.a5)
+        n = self.board._neighbor_top_left(Coordinate.a5)
         self.assertEqual(n, None)
 
     def test_neighbor_top_left(self):
-        n = self.board._neighborTopLeft(Coordinate.f3)
+        n = self.board._neighbor_top_left(Coordinate.f3)
         self.assertEqual(n, Coordinate.e4)
 
     def test_neighbor_in_direction_raises_TypeError(self):
-        self.assertRaises(TypeError, self.board.neighborInDirection,
+        self.assertRaises(TypeError, self.board.neighbor_in_direction,
             square = "notCoordinate",
             direction = Direction.top)
-        self.assertRaises(TypeError, self.board.neighborInDirection,
+        self.assertRaises(TypeError, self.board.neighbor_in_direction,
             square = Coordinate.a1,
             direction = "notDirection")
 
     def test_neighbor_in_direction_top(self):
-        n = self.board.neighborInDirection(Coordinate.d3, Direction.top)
+        n = self.board.neighbor_in_direction(Coordinate.d3, Direction.top)
         self.assertEqual(n, Coordinate.d4)
 
     def test_neighbor_in_direction_top_right(self):
-        n = self.board.neighborInDirection(Coordinate.d3, Direction.topRight)
+        n = self.board.neighbor_in_direction(Coordinate.d3, Direction.top_right)
         self.assertEqual(n, Coordinate.e4)
 
     def test_neighbor_in_direction_right(self):
-        n = self.board.neighborInDirection(Coordinate.d3, Direction.right)
+        n = self.board.neighbor_in_direction(Coordinate.d3, Direction.right)
         self.assertEqual(n, Coordinate.e3)
 
     def test_neighbor_in_direction_btm_right(self):
-        n = self.board.neighborInDirection(Coordinate.d3, Direction.btmRight)
+        n = self.board.neighbor_in_direction(Coordinate.d3, Direction.btm_right)
         self.assertEqual(n, Coordinate.e2)
 
     def test_neighbor_in_direction_btm(self):
-        n = self.board.neighborInDirection(Coordinate.d3, Direction.btm)
+        n = self.board.neighbor_in_direction(Coordinate.d3, Direction.btm)
         self.assertEqual(n, Coordinate.d2)
 
     def test_neighbor_in_directino_btm_left(self):
-        n = self.board.neighborInDirection(Coordinate.d3, Direction.btmLeft)
+        n = self.board.neighbor_in_direction(Coordinate.d3, Direction.btm_left)
         self.assertEqual(n, Coordinate.c2)
 
     def test_neighbor_in_direction_left(self):
-        n = self.board.neighborInDirection(Coordinate.d3, Direction.left)
+        n = self.board.neighbor_in_direction(Coordinate.d3, Direction.left)
         self.assertEqual(n, Coordinate.c3)
 
     def test_neighbor_in_direction_top_left(self):
-        n = self.board.neighborInDirection(Coordinate.d3, Direction.topLeft)
+        n = self.board.neighbor_in_direction(Coordinate.d3, Direction.top_left)
         self.assertEqual(n, Coordinate.c4)
 
     def test_neighbors_raises_TypeError(self):
@@ -168,80 +168,80 @@ class TestBoard(unittest.TestCase):
     def test_neighbors_corner(self):
         n = self.board.neighbors(Coordinate.a1)
         correct = {Direction.top: Coordinate.a2,
-                    Direction.topRight: Coordinate.b2,
+                    Direction.top_right: Coordinate.b2,
                     Direction.right: Coordinate.b1,
-                    Direction.btmRight: None,
+                    Direction.btm_right: None,
                     Direction.btm: None,
-                    Direction.btmLeft: None,
+                    Direction.btm_left: None,
                     Direction.left: None,
-                    Direction.topLeft: None}
+                    Direction.top_left: None}
         self.assertEqual(n, correct)
 
     def test_neighbors_top(self):
         n = self.board.neighbors(Coordinate.c8)
         correct = {Direction.top: None,
-                    Direction.topRight: None,
+                    Direction.top_right: None,
                     Direction.right: Coordinate.d8,
-                    Direction.btmRight: Coordinate.d7,
+                    Direction.btm_right: Coordinate.d7,
                     Direction.btm: Coordinate.c7,
-                    Direction.btmLeft: Coordinate.b7,
+                    Direction.btm_left: Coordinate.b7,
                     Direction.left: Coordinate.b8,
-                    Direction.topLeft: None}
+                    Direction.top_left: None}
         self.assertEqual(n, correct)
 
     def test_neighbors_right(self):
         n = self.board.neighbors(Coordinate.h7)
         correct = {Direction.top: Coordinate.h8,
-                    Direction.topRight: None,
+                    Direction.top_right: None,
                     Direction.right: None,
-                    Direction.btmRight: None,
+                    Direction.btm_right: None,
                     Direction.btm: Coordinate.h6,
-                    Direction.btmLeft: Coordinate.g6,
+                    Direction.btm_left: Coordinate.g6,
                     Direction.left: Coordinate.g7,
-                    Direction.topLeft: Coordinate.g8}
+                    Direction.top_left: Coordinate.g8}
         self.assertEqual(n, correct)
 
     def test_neighbors_bottom(self):
         n = self.board.neighbors(Coordinate.d1)
         correct = {Direction.top: Coordinate.d2,
-                    Direction.topRight: Coordinate.e2,
+                    Direction.top_right: Coordinate.e2,
                     Direction.right: Coordinate.e1,
-                    Direction.btmRight: None,
+                    Direction.btm_right: None,
                     Direction.btm: None,
-                    Direction.btmLeft: None,
+                    Direction.btm_left: None,
                     Direction.left: Coordinate.c1,
-                    Direction.topLeft: Coordinate.c2}
+                    Direction.top_left: Coordinate.c2}
         self.assertEqual(n, correct)
 
     def test_neighbors_left(self):
         n = self.board.neighbors(Coordinate.a5)
         correct = {Direction.top: Coordinate.a6,
-                    Direction.topRight: Coordinate.b6,
+                    Direction.top_right: Coordinate.b6,
                     Direction.right: Coordinate.b5,
-                    Direction.btmRight: Coordinate.b4,
+                    Direction.btm_right: Coordinate.b4,
                     Direction.btm: Coordinate.a4,
-                    Direction.btmLeft: None,
+                    Direction.btm_left: None,
                     Direction.left: None,
-                    Direction.topLeft: None}
+                    Direction.top_left: None}
         self.assertEqual(n, correct)
 
     def test_neighbors_center(self):
         n = self.board.neighbors(Coordinate.d3)
         correct = {Direction.top: Coordinate.d4,
-                    Direction.topRight: Coordinate.e4,
+                    Direction.top_right: Coordinate.e4,
                     Direction.right: Coordinate.e3,
-                    Direction.btmRight: Coordinate.e2,
+                    Direction.btm_right: Coordinate.e2,
                     Direction.btm: Coordinate.d2,
-                    Direction.btmLeft: Coordinate.c2,
+                    Direction.btm_left: Coordinate.c2,
                     Direction.left: Coordinate.c3,
-                    Direction.topLeft: Coordinate.c4}
+                    Direction.top_left: Coordinate.c4}
         self.assertEqual(n, correct)
 
     def test_row_for_square_raises_TypeError(self):
-        self.assertRaises(TypeError,self.board.rowForSquare,"notCoordinate")
+        self.assertRaises(TypeError,self.board.row_for_square,"notCoordinate")
 
     def test_row_for_square(self):
-        boardAnswer = self.board.rowForSquare(Coordinate.d5)
+        boardAnswer = self.board.row_for_square(Coordinate.d5)
         correctAnswer = [Coordinate.a5,
                         Coordinate.b5,
                         Coordinate.c5,
@@ -253,10 +253,10 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(sorted(boardAnswer),sorted(correctAnswer))
 
     def test_column_for_square_raises_TypeError(self):
-        self.assertRaises(TypeError,self.board.columnForSquare,"notCoordinate")
+        self.assertRaises(TypeError,self.board.column_for_square,"notCoordinate")
 
     def test_column_for_square(self):
-        boardAnswer = self.board.columnForSquare(Coordinate.a1)
+        boardAnswer = self.board.column_for_square(Coordinate.a1)
         correctAnswer = [Coordinate.a1,
                         Coordinate.a2,
                         Coordinate.a3,
@@ -268,10 +268,10 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(sorted(boardAnswer),sorted(correctAnswer))
 
     def test_row_and_column_for_square_raises_TypeError(self):
-        self.assertRaises(TypeError,self.board.columnForSquare,"notCoordinate")
+        self.assertRaises(TypeError,self.board.column_for_square,"notCoordinate")
 
     def test_row_and_column_for_square(self):
-        boardAnswer = self.board.rowAndColumnForSquare(Coordinate.b4)
+        boardAnswer = self.board.row_and_column_for_square(Coordinate.b4)
         correctAnswer = [Coordinate.b1,
                         Coordinate.b2,
                         Coordinate.b3,
@@ -290,10 +290,10 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(sorted(boardAnswer),sorted(correctAnswer))
 
     def test_diagonals_for_square_raises_TypeError(self):
-        self.assertRaises(TypeError,self.board.columnForSquare,"notCoordinate")
+        self.assertRaises(TypeError,self.board.column_for_square,"notCoordinate")
 
     def test_diagonals_for_square(self):
-        boardAnswer = self.board.diagonalsForSquare(Coordinate.d4)
+        boardAnswer = self.board.diagonals_for_square(Coordinate.d4)
         correctAnswer = [Coordinate.a1,
                         Coordinate.b2,
                         Coordinate.c3,
@@ -311,21 +311,21 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(sorted(boardAnswer),sorted(correctAnswer))
 
     def test_path_in_direction_raises_TypeError(self):
-        self.assertRaises(TypeError, self.board.pathInDirection,
+        self.assertRaises(TypeError, self.board.path_in_direction,
             origin = "notCoordinate",
             destination = Coordinate.a3,
             direction = Direction.top)
-        self.assertRaises(TypeError, self.board.pathInDirection,
+        self.assertRaises(TypeError, self.board.path_in_direction,
             origin = Coordinate.a1,
             destination = "notCoordinate",
             direction = Direction.btm)
-        self.assertRaises(TypeError, self.board.pathInDirection,
+        self.assertRaises(TypeError, self.board.path_in_direction,
             origin = Coordinate.a1,
             destination = Coordinate.b4,
             direction = "notDirection")
 
     def test_path_in_direction_top(self):
-        path = self.board.pathInDirection(Coordinate.d3, Coordinate.d7, \
+        path = self.board.path_in_direction(Coordinate.d3, Coordinate.d7, \
                                             Direction.top) 
         correctPath = [Coordinate.d4,
                         Coordinate.d5,
@@ -333,8 +333,8 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(path, correctPath)                  
 
     def test_path_in_direction_top_right(self):
-        path = self.board.pathInDirection(Coordinate.a1, Coordinate.h8, \
-                                            Direction.topRight)
+        path = self.board.path_in_direction(Coordinate.a1, Coordinate.h8, \
+                                            Direction.top_right)
         correctPath = [Coordinate.b2,
                         Coordinate.c3,
                         Coordinate.d4,
@@ -344,49 +344,49 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(path, correctPath)
 
     def test_path_in_direction_unreachable(self):
-        path = self.board.pathInDirection(Coordinate.a8, Coordinate.h8, \
+        path = self.board.path_in_direction(Coordinate.a8, Coordinate.h8, \
                                             Direction.btm)
         correctPath = []
         self.assertEqual(path, correctPath)
 
     def test_path_in_direction_out_of_bounds(self):
-        path = self.board.pathInDirection(Coordinate.a8, Coordinate.a1, \
+        path = self.board.path_in_direction(Coordinate.a8, Coordinate.a1, \
                                             Direction.left)
         correctPath = []
         self.assertEqual(path, correctPath)
 
     def test_square_content_raises_TypeError(self):
-        self.assertRaises(TypeError,self.board.getContent,"notCoordinate")
+        self.assertRaises(TypeError,self.board.get_content,"notCoordinate")
 
     def test_square_content(self):
-        self.board.setContent(Coordinate.a3, "white piece")
-        self.assertEqual(self.board.getContent(Coordinate.a3), "white piece")
+        self.board.set_content(Coordinate.a3, "white piece")
+        self.assertEqual(self.board.get_content(Coordinate.a3), "white piece")
 
     def test_is_square_emtpy_raises_TypeError(self):
-        self.assertRaises(TypeError,self.board.isEmpty,"notCoordinate")
+        self.assertRaises(TypeError,self.board.is_empty,"notCoordinate")
 
     def test_is_square_empty_true(self):
-        self.assertTrue(self.board.isEmpty(Coordinate.d2))
+        self.assertTrue(self.board.is_empty(Coordinate.d2))
 
     def test_is_square_empty_false(self):
-        self.board.setContent(Coordinate.e3, 2)
-        self.assertFalse(self.board.isEmpty(Coordinate.e3))
+        self.board.set_content(Coordinate.e3, 2)
+        self.assertFalse(self.board.is_empty(Coordinate.e3))
 
     def test_clear_square_raises_TypeError(self):
-        self.assertRaises(TypeError,self.board.clearSquare,"notCoordinate")
+        self.assertRaises(TypeError,self.board.clear_square,"notCoordinate")
 
     def test_clear_square(self):
-        self.board.setContent(Coordinate.h4, [1,2])
-        self.board.clearSquare(Coordinate.h4)
-        self.assertTrue(self.board.isEmpty(Coordinate.h4))
+        self.board.set_content(Coordinate.h4, [1,2])
+        self.board.clear_square(Coordinate.h4)
+        self.assertTrue(self.board.is_empty(Coordinate.h4))
 
     def test_clear_board(self):
         for i in range(10):
             square = Coordinate(random.randrange(1,64))
-            self.board.setContent(square,"pawn")
-        self.board.clearBoard()
+            self.board.set_content(square,"pawn")
+        self.board.clear_board()
         for square in Coordinate:
-            self.assertTrue(self.board.isEmpty(square))
+            self.assertTrue(self.board.is_empty(square))
 
     def test_move_content_raises_TypeError(self):
         self.assertRaises(TypeError,self.board.move,
@@ -397,9 +397,9 @@ class TestBoard(unittest.TestCase):
             destination = Coordinate.a3)
 
     def test_move_content(self):
-        self.board.setContent(Coordinate.g8, "knight")
+        self.board.set_content(Coordinate.g8, "knight")
         self.board.move(Coordinate.g8, Coordinate.f6)
-        self.assertEqual(self.board.getContent(Coordinate.f6),"knight")
+        self.assertEqual(self.board.get_content(Coordinate.f6),"knight")
 
 if __name__ == '__main__':
     unittest.main()
