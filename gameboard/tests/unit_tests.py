@@ -237,78 +237,52 @@ class TestBoard(unittest.TestCase):
                     Direction.top_left: Coordinate.c4}
         self.assertEqual(n, correct)
 
-    def test_row_for_square_raises_TypeError(self):
-        self.assertRaises(TypeError,self.board.row_for_square,"notCoordinate")
+    def test_squares_in_direction_raises_TypeError(self):
+        self.assertRaises(TypeError,self.board.squares_in_direction,
+            origin = "notCoordinate",
+            direction = Direction.top)
+        self.assertRaises(TypeError, self.board.squares_in_direction,
+            origin = Coordinate.a1,
+            direction = "notDirection")
 
-    def test_row_for_square(self):
-        boardAnswer = self.board.row_for_square(Coordinate.d5)
-        correctAnswer = [Coordinate.a5,
-                        Coordinate.b5,
-                        Coordinate.c5,
-                        Coordinate.d5,
-                        Coordinate.e5,
-                        Coordinate.f5,
-                        Coordinate.g5,
-                        Coordinate.h5]
-        self.assertEqual(sorted(boardAnswer),sorted(correctAnswer))
+    def test_squares_in_direction_center_to_edge(self):
+        s = self.board.squares_in_direction(Coordinate.d4, Direction.top)
+        correct = [Coordinate.d5,
+                   Coordinate.d6,
+                   Coordinate.d7,
+                   Coordinate.d8]
+        self.assertEqual(s, correct)
 
-    def test_column_for_square_raises_TypeError(self):
-        self.assertRaises(TypeError,self.board.column_for_square,"notCoordinate")
+    def test_squares_in_direction_along_edge(self):
+        s = self.board.squares_in_direction(Coordinate.a5, Direction.btm)
+        correct = [Coordinate.a4,
+                   Coordinate.a3,
+                   Coordinate.a2,
+                   Coordinate.a1]
+        self.assertEqual(s, correct)
 
-    def test_column_for_square(self):
-        boardAnswer = self.board.column_for_square(Coordinate.a1)
-        correctAnswer = [Coordinate.a1,
-                        Coordinate.a2,
-                        Coordinate.a3,
-                        Coordinate.a4,
-                        Coordinate.a5,
-                        Coordinate.a6,
-                        Coordinate.a7,
-                        Coordinate.a8]
-        self.assertEqual(sorted(boardAnswer),sorted(correctAnswer))
+    def test_squares_in_direction_edge_to_outside(self):
+        s = self.board.squares_in_direction(Coordinate.a1, Direction.left)
+        self.assertEqual(s, [])
 
-    def test_row_and_column_for_square_raises_TypeError(self):
-        self.assertRaises(TypeError,self.board.column_for_square,"notCoordinate")
+    def test_squares_in_direction_with_non_empty_square_ignored(self):
+        self.board.set_content(Coordinate.g5, "boo")
+        s = self.board.squares_in_direction(Coordinate.a5, Direction.right)
+        correct = [Coordinate.b5,
+                   Coordinate.c5,
+                   Coordinate.d5,
+                   Coordinate.e5,
+                   Coordinate.f5]
+        self.assertEqual(s, correct)
 
-    def test_row_and_column_for_square(self):
-        boardAnswer = self.board.row_and_column_for_square(Coordinate.b4)
-        correctAnswer = [Coordinate.b1,
-                        Coordinate.b2,
-                        Coordinate.b3,
-                        Coordinate.b4,
-                        Coordinate.b5,
-                        Coordinate.b6,
-                        Coordinate.b7,
-                        Coordinate.b8,
-                        Coordinate.a4,
-                        Coordinate.c4,
-                        Coordinate.d4,
-                        Coordinate.e4,
-                        Coordinate.f4,
-                        Coordinate.g4,
-                        Coordinate.h4]
-        self.assertEqual(sorted(boardAnswer),sorted(correctAnswer))
-
-    def test_diagonals_for_square_raises_TypeError(self):
-        self.assertRaises(TypeError,self.board.column_for_square,"notCoordinate")
-
-    def test_diagonals_for_square(self):
-        boardAnswer = self.board.diagonals_for_square(Coordinate.d4)
-        correctAnswer = [Coordinate.a1,
-                        Coordinate.b2,
-                        Coordinate.c3,
-                        Coordinate.d4,
-                        Coordinate.e5,
-                        Coordinate.f6,
-                        Coordinate.g7,
-                        Coordinate.h8,
-                        Coordinate.a7,
-                        Coordinate.b6,
-                        Coordinate.c5,
-                        Coordinate.e3,
-                        Coordinate.f2,
-                        Coordinate.g1]
-        self.assertEqual(sorted(boardAnswer),sorted(correctAnswer))
+    def test_squares_in_direction_with_non_empty_square_included(self):
+        self.board.set_content(Coordinate.g5, "boo")
+        s = self.board.squares_in_direction(Coordinate.d2, Direction.top_right,
+            include_last_non_empty_square = True)
+        correct = [Coordinate.e3,
+                   Coordinate.f4,
+                   Coordinate.g5]
+        self.assertEqual(s, correct)
 
     def test_path_in_direction_raises_TypeError(self):
         self.assertRaises(TypeError, self.board.path_in_direction,

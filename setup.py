@@ -5,7 +5,7 @@ def readme():
         return f.read()
 
 setup(name='gameboard',
-      version='1.0',
+      version='1.1',
       description='8x8 gameboard for use with chess or checkers',
       long_description=readme(),
       classifiers=[

@@ -174,109 +174,39 @@ class Gameboard:
                 Direction.left: self._neighbor_left(square),
                 Direction.top_left: self._neighbor_top_left(square)}
 
-    def row_for_square(self, square):
-        """Returns a list with the horizontal line with the square given.
+    def squares_in_direction(self, origin, direction, 
+            include_last_non_empty_square = False):
+        """Returns a list with the points from origin to destination.
 
         Args:
-            square (Coordinate): the square in the row to find
+            origin (Coordinate): the square to start from
+            direction (Direction): direction to move in
+                include_last_non_empty_square (bool): if False, the list will
+                include squares up to, but not including the first square where
+                content was found. Default value is False
         Returns:
-            list: elements are Coordinate elements in the row, including square
+            list: elements are Coordinate elements from origin until the edge
+                of the board is reached or a non-empty square is found.
         Raises:
-            TypeError: if square is not of type Coordinate
+            TypeError: if origin is not of type Coordinate, or if direction 
+                is not of type Direction
 
         """
-        if not isinstance(square, Coordinate):
-            raise TypeError("square variable must be from Coordinate enum")
-        # Horizontal lines all have the same number (x-value)
-        x, y = self._indexOf(square)
-        return self.rows[x]
-
-    def column_for_square(self, square):
-        """Returns a list with the vertical line with the square given.
-
-        Args:
-            square (Coordinate): the square in the column to find
-        Returns:
-            list: elements are Coordinate elements in the col, including square
-        Raises:
-            TypeError: if square is not of type Coordinate
-
-        """
-        if not isinstance(square, Coordinate):
-            raise TypeError("square variable must be from Coordinate enum")
-        # Vertical lines all have the same letter (y-value)
-        x, y = self._indexOf(square)
-        column = []
-        for row in self.rows:
-            column.append(row[y])
-        return column
-
-    def row_and_column_for_square(self, square):
-        """Returns the horizontal and vertical lines with the square given.
-
-        Args:
-            square (Coordinate): the square in the row to find
-        Returns:
-            list: elements are Coordinate elements in the row and column, 
-            including 'square'
-        Raises:
-            TypeError: if square is not of type Coordinate
-
-        """
-        if not isinstance(square, Coordinate):
-            raise TypeError("square variable must be from Coordinate enum")
-        row = self.row_for_square(square)
-        col = self.column_for_square(square)
-        row.extend(col)
-        return list(set(row)) 
-        # ^ turn into set because 'square' is in both lists and a duplicate element after extend()
-
-    def diagonals_for_square(self, square):
-        """Returns a list with both diagonals where the square given belongs.
-
-        Args:
-            square (Coordinate): the square in the diagonals to find
-        Returns:
-            list: elements are Coordinate elements in the diagonals, including 
-            'square'
-        Raises:
-            TypeError: if square is not of type Coordinate
-
-        """
-        if not isinstance(square, Coordinate):
-            raise TypeError("square variable must be from Coordinate enum")
-        MAX_INDEX = len(self.rows) - 1
-        MIN_INDEX = 0
-        
-        x, y = self._indexOf(square)
-        diagonals = [square]
-
-        # 4 directions: 
-        #   top-right:  x decreases, y increases
-        rowIndex, colIndex = x, y
-        while rowIndex > MIN_INDEX and colIndex < MAX_INDEX:
-            rowIndex -= 1
-            colIndex += 1
-            diagonals.append(self.rows[rowIndex][colIndex])
-        #   btm-right:  x increases, y increases
-        rowIndex, colIndex = x, y
-        while rowIndex < MAX_INDEX and colIndex < MAX_INDEX:
-            rowIndex += 1
-            colIndex += 1
-            diagonals.append(self.rows[rowIndex][colIndex])
-        #   btm-left:   x increases, y decreases
-        rowIndex, colIndex = x, y
-        while rowIndex < MAX_INDEX and colIndex > MIN_INDEX:
-            rowIndex += 1
-            colIndex -= 1
-            diagonals.append(self.rows[rowIndex][colIndex])
-        #   top-right:  x decreases, y decreases
-        rowIndex, colIndex = x, y
-        while rowIndex > MIN_INDEX and colIndex > MIN_INDEX:
-            rowIndex -= 1
-            colIndex -= 1
-            diagonals.append(self.rows[rowIndex][colIndex])
-        return diagonals
+        if not isinstance(origin, Coordinate):
+            raise TypeError("origin variable must be from Coordinate enum")
+        if not isinstance(direction, Direction):
+            raise TypeError("direction variable must be from Direction enum")
+        path = []
+        square = self.neighbor_in_direction(origin, direction)
+        while square is not None:
+            if self.is_empty(square):
+                path.append(square)
+            else:
+                if include_last_non_empty_square:
+                    path.append(square)
+                break
+            square = self.neighbor_in_direction(square, direction)
+        return path
 
     def path_in_direction(self, origin, destination, direction):
         """Returns a list with the points from origin to destination.
@@ -287,11 +217,11 @@ class Gameboard:
             direction (Direction): direction to move in
         Returns:
             list: elements are Coordinate elements in the path from origin 
-            to destination the list is returned empty if destination is not 
-            reached in specified direction from origin
+                to destination. The list is returned empty if destination is 
+                not reached in specified direction from origin
         Raises:
             TypeError: if origin or destination is not of type Coordinate, 
-            or if direction is not of type Direction
+                or if direction is not of type Direction
 
         """
         if not isinstance(origin, Coordinate):
@@ -303,7 +233,7 @@ class Gameboard:
         path = []
         square = self.neighbor_in_direction(origin, direction)
         foundDestination = False
-        while square != None:
+        while square is not None:
             path.append(square)
             square = self.neighbor_in_direction(square, direction)
             if square is destination:
@@ -353,7 +283,7 @@ class Gameboard:
         """
         if not isinstance(square, Coordinate):
             raise TypeError("square variable must be from Coordinate enum")
-        return (self._squares[square] == None)
+        return (self._squares[square] is None)
 
     def clear_square(self, square):
         """No return value. Sets the content of given square to None
