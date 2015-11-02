@@ -37,11 +37,17 @@ class Gameboard:
                 Coordinate.e2, Coordinate.f2, Coordinate.g2, Coordinate.h2],
             [Coordinate.a1, Coordinate.b1, Coordinate.c1, Coordinate.d1, 
                 Coordinate.e1, Coordinate.f1, Coordinate.g1, Coordinate.h1]]
+
+    @property
+    def moves(self):
+        """List of tuples of the form (origin, destination), both Coordinate"""
+        return self._moves
     
     def __init__(self):
         self._squares = {}
         for k in Coordinate:
             self._squares[k] = None
+        self._moves = []
 
     def _indexOf(self, square):
         """Returns a tuple with the index of given square in self.rows
@@ -320,3 +326,4 @@ class Gameboard:
             raise TypeError("origin and destination must be from Coordinate enum")
         self._squares[destination] = self._squares[origin]
         self._squares[origin] = None
+        self._moves.append((origin, destination))
